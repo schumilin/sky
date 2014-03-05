@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.shinlol.weilan" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Weilan</name>
+    <description>
+        About Beijing PM2.5
+    </description>
+    <author email="zhailin@wandoujia.com" href="https://github.com/schumilin">
+        Lin Zhai
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+</widget>
