@@ -1,0 +1,183 @@
+@import "compass";
+$grey1:rgba(255,255,255,0.95);
+$grey2:rgba(255,255,255,0.85);
+$grey3:rgba(255,255,255,0.25);
+$grey4:rgba(255,255,255,0.1);
+
+@font-face {
+    font-family: 'Exo 2';
+    font-style: normal;
+    font-weight: 100;
+    src: local('Exo 2 Thin'), local('Exo2-Thin'), url(../font/exo.woff) format('woff');
+}
+
+body{
+    background: url(../img/bg.png);
+    background-size: 100%;
+    font: 14px/21px 'Exo 2', sans-serif;
+    font-weight: 100;
+    color: $grey1;
+    margin: 15px;
+}
+.top-bar {
+    @include transition(all .5s ease-out);
+    @include transform(translate3d(0,-60px,0));
+    text-align: center;
+    position: relative;
+
+    &.complete {
+        @include transform(translate3d(0,0,0));
+    }
+
+    .pm25-icon {
+        position: absolute;
+        left: 0;
+        top: 0;
+        background: $grey3;
+        width: 60px;
+    }
+    .time, .date {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+    .time {
+        top: 21px;
+    }
+    .level {
+        position: absolute;
+        right: 0;
+        left: 0;
+        top: 21px;
+        font-size: 12px;
+    }
+    .location {
+        font-size: 18px;
+        vertical-align: middle;
+    }
+}
+.dashboard {
+    overflow: hidden;
+    margin: 15px 0;
+
+    .big-bang {
+        text-align: center;
+        border-bottom: 1px solid $grey3;
+        .pm25-number {
+            display: block;
+            font-size: 100px;
+            line-height: 120px;
+            height: 120px;
+            opacity: 0;
+            @include ellipsis(true);
+            &.complete {
+                -webkit-animation: bounceIn .7s;
+            }  
+        }
+    }
+    .threesome-wrap {
+        height: 42px;
+        overflow: hidden;
+    }
+    .threesome {
+        text-align: center;
+        float: left;
+        width: 33.3%;
+        @include transition(all .4s);
+        @include transform(translate3d(0,-42px,0));
+
+        &.complete {
+            @include transform(translate3d(0,0,0));
+        }
+        .threesome-icon {
+            background: $grey3;
+            display: inline-block;
+            width: 60px;
+        }
+        .threesome-number {
+            display: block;
+        }
+    }
+}
+.guess {
+    font-family: Arial, sans-serif;
+    background: $grey4;
+    width: 90%;
+    margin: 25px auto;
+    overflow: hidden;
+    text-align: center;
+    opacity: 0;
+    @include transition(all .5s);
+    @include transform(translate3d(0,-15px,0));
+
+    &.complete {
+        opacity: 1;
+        @include transform(translate3d(0,0,0));
+    }
+
+    p {
+        padding: 0 20px;
+    }
+}
+#aqiChart {
+    width: 100%;
+    height: 220px;
+}
+
+@include keyframes(bounceIn) {
+    0% {
+        opacity: 0;
+        @include transform(scale3d(.5,.5,1));
+    }
+
+    50% {
+        opacity: 1;
+        @include transform(scale3d(1.05,1.05,1));
+    }
+
+    70% {
+        @include transform(scale3d(.9,.9,1));
+    }
+
+    100% {
+        @include transform(scale3d(1,1,1));
+    }
+}
+
+@include keyframes (bounceInDown) {
+    0% {
+        opacity: 0;
+        @include transform(translate3d(0,-15px,0));
+    }
+
+    60% {
+        opacity: 1;
+        @include transform(translate3d(0,10px,0));
+    }
+
+    80% {
+        @include transform(translate3d(0,-5px,0));
+    }
+
+    100% {
+        @include transform(translate3d(0,0,0));
+    }
+}
+
+@include keyframes (rubberBand) {
+    0% {
+        @include transform(scale3d(1,1,1));
+    }
+    30% {
+        @include transform(scale3d(1.25,0.75,1));
+    }
+    40% {
+        @include transform(scale3d(0.75,1.25,1));
+    }
+    60% {
+        @include transform(scale3d(1.15,0.85,1));
+    }
+    100% {
+        @include transform(scale3d(1,1,1));
+    }
+}
