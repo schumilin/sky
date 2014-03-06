@@ -63,7 +63,7 @@ $.ajax({
     dataType: "jsonp",
     url: 'http://www.pm25.in/api/querys/aqis_by_station.json',
     data: {
-        station_code: '1005A',
+        station_code: '1006A',
         token: '5j1znBVAsnSf5xQyNQyq'
     }
 }).done(function(data) {
@@ -99,10 +99,11 @@ $.ajax({
 // highchart config
 var renderChart = function () {
 
-    var grey1 = 'rgba(255,255,255,0.15)';
+    var grey1 = 'rgba(255,255,255,0.20)';
     var grey2 = 'rgba(255,255,255,0.85)';
     var grey3 = 'rgba(255,255,255,0.95)';
     var grey4 = 'rgba(255,255,255,0.65)';
+    var grey5 = 'rgba(255,255,255,0.40)';
     var calendar = new Date();
     var year = calendar.getYear();
     var month = calendar.getMonth();
@@ -115,6 +116,9 @@ var renderChart = function () {
         chart: {
             type: 'spline',
             backgroundColor: 'transparent'
+        },
+        credits: {
+            enabled: false
         },
         exporting: {
             enabled: false
@@ -136,6 +140,9 @@ var renderChart = function () {
         },
         xAxis: {
             type: 'datetime',
+            lineColor: grey5,
+            tickColor: grey5,
+            tickInterval: 3600 * 1000 * 4,
             labels: {
                 style: {
                     color: grey2
@@ -151,9 +158,10 @@ var renderChart = function () {
                     color: grey2
                 }
             },
-            gridLineColor: grey4,
+            gridLineColor: grey1,
             min: 0,
-            max: 500
+            max: 500,
+            tickInterval: 100
         },
         legend: {
             borderWidth: 0,
@@ -162,19 +170,29 @@ var renderChart = function () {
                 fontWeight: 'bold'
             }
         },
-        tooltip: {
-            valueSuffix: 'μg/m3'
-        },
         plotOptions: {
             series: {
+                marker: {
+                    radius: 2
+                },
                 pointStart: Date.UTC(year, month, date, (hour-23)),
                 pointInterval: 3600 * 1000
+            }
+        },
+        tooltip: {
+            backgroundColor: grey1,
+            borderColor: null,
+            shadow: false,
+            pointFormat: '{point.y}',
+            valueSuffix: 'μg',
+            xDateFormat: '%H:00',
+            style: {
+                color: grey3
             }
         },
         series: [{
             name: 'pm2.5',
             data: pm25Array
-
         }]
     });
 }

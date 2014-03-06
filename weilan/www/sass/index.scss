@@ -93,6 +93,9 @@ body{
             background: $grey3;
             display: inline-block;
             width: 60px;
+            .leg {
+                font-size: 9px;
+            }
         }
         .threesome-number {
             display: block;
@@ -100,9 +103,9 @@ body{
     }
 }
 .guess {
-    font-family: Arial, sans-serif;
+    // font-family: Arial, sans-serif;
+    font-size: 14px;
     background: $grey4;
-    width: 90%;
     margin: 25px auto;
     overflow: hidden;
     text-align: center;
