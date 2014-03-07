@@ -71,9 +71,9 @@ $.ajax({
     var date = aqiObj.time_point.slice(0,10);
     var time = aqiObj.time_point.slice(11,16);
 
-    $('.pm25-number').html(aqiObj.aqi);
-    $('.pm10-number').html(aqiObj.pm10)
-    $('.so2-number').html(aqiObj.so2);
+    $('.aqi-number').html(aqiObj.aqi);
+    $('.pm10-number').html(aqiObj.pm10);
+    $('.pm25-number').html(aqiObj.pm2_5);
     $('.no2-number').html(aqiObj.no2);
     $('.level').html(aqiObj.quality);
     $('.time').html(time);
@@ -84,7 +84,7 @@ $.ajax({
         $('.top-bar').addClass('complete');
     },0);
     setTimeout(function () {
-        $('.pm25-number').addClass('complete').css('opacity','1');
+        $('.aqi-number').addClass('complete').css('opacity','1');
     },500);
     setTimeout(function () {
         $('.threesome').addClass('complete');
