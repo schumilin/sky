@@ -39,18 +39,15 @@ var pm25Array = [];
 
 // get one day chart data from AVOS DB
 var getDayChart = function () {
-    var father = AV.Object.extend("aqiOneday");
+    var father = AV.Object.extend("aqiChart");
     var son = new AV.Query(father);
     son.descending("createdAt");
-    son.limit(24);
+    son.limit(1);
     son.find({
         success: function(results) {
-            var obj = null;
+            var obj = results[0];
 
-            for (var i = 0; i < results.length; i++) {
-                obj = results[i];
-                pm25Array.unshift(obj.get('aqiArray'));
-            }
+            pm25Array = obj.get('data');
 
             renderChart();
         },

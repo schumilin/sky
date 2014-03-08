@@ -11,25 +11,54 @@
             width: 100%;
             height: 800px;
         }
+        input {
+            width: 200px;
+            padding: 5px;
+        }
     </style>
 </head>
 <body>
     <div>
-        <button class='fuck'>Fxck the data</button>
+        <a href="pm25.in" target="_blank">pm25.in</a>
+        <a href="http://www.young-0.com/airquality/index.php" target="_blank">database</a>
+        <a href="https://cn.avoscloud.com/applist.html#/apps" target="_blank">AVOS Console</a>
+        <p><input type="text" class="first"></p>
+        <p><input type="text" class="second"></p>
+        <button class='save-guess'>Save the guess</button>
+        <button class='fuck'>Get & Save the data</button>
         <p class="car"></p>
     </div>
     <hr>
     <iframe id="alonso" src="http://www.young-0.com/airquality/index.php?cn=1" frameborder="0"></iframe>
+
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/av-0.3.1.min.js"></script>
     <script>
-        $('.fuck').on('click', function () {
-            AV.initialize("2uu9d14470rpv39bb1178vsddmkdfgis13zfr2be0vyeuog8", "o33s1rvaukqedeforme8f10wegjv69rdw0wjoei2cuka4u9q");
+        AV.initialize("2uu9d14470rpv39bb1178vsddmkdfgis13zfr2be0vyeuog8", "o33s1rvaukqedeforme8f10wegjv69rdw0wjoei2cuka4u9q");
 
+        $('.save-guess').on('click', function () {
+            var first = $('.first').val();
+            var second = $('.second').val();
+
+            var father = AV.Object.extend('guess');
+            var son = new father();
+            son.set('first', first);
+            son.set('second', second);
+            son.save(null, {
+              success: function(data) {
+                $('.car').html('save guess success');
+              },
+              error: function(data, error) {
+                $('.car').html('Failed to save guess info');
+              }
+            });
+        });
+
+        $('.fuck').on('click', function () {
             var array = [];
             var domArray = $('#alonso').contents().find('.gr2');
             domArray.each(function (index, el) {
-                array.unshift($(el).text());
+                array.unshift(parseInt($(el).text()));
             });
 
             var father = AV.Object.extend('aqiChart');
