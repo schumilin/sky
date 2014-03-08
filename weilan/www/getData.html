@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>getData</title>
+    <style>
+        button {
+            font-size: 34px;
+        }
+        iframe {
+            width: 100%;
+            height: 800px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <button class='fuck'>Fxck the data</button>
+        <p class="car"></p>
+    </div>
+    <hr>
+    <iframe id="alonso" src="http://www.young-0.com/airquality/index.php?cn=1" frameborder="0"></iframe>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/av-0.3.1.min.js"></script>
+    <script>
+        $('.fuck').on('click', function () {
+            AV.initialize("2uu9d14470rpv39bb1178vsddmkdfgis13zfr2be0vyeuog8", "o33s1rvaukqedeforme8f10wegjv69rdw0wjoei2cuka4u9q");
+
+            var array = [];
+            var domArray = $('#alonso').contents().find('.gr2');
+            domArray.each(function (index, el) {
+                array.unshift($(el).text());
+            });
+
+            var father = AV.Object.extend('aqiChart');
+            var son = new father();
+            son.set('data', array);
+
+            son.save(null, {
+              success: function(data) {
+                $('.car').html(array);
+              },
+              error: function(data, error) {
+                $('.car').html('Failed to create new object, with error code: ' + error.description);
+              }
+            });
+        });
+    </script>
+</body>
+</html>
