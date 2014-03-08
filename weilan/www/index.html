@@ -19,26 +19,26 @@
         </div>
         <div class="dashboard">
             <div class="big-bang">
-                <span class="aqi-number"></span>
+                <span class="aqi-number">--</span>
             </div>
             <div class="threesome-wrap">
                 <div class="threesome">
                     <span class="threesome-icon">PM 2.5</span>
-                    <span class="threesome-number pm25-number"></span>
+                    <span class="threesome-number pm25-number">--</span>
                 </div>
                 <div class="threesome">
                     <span class="threesome-icon">PM 10</span>
-                    <span class="threesome-number pm10-number"></span>
+                    <span class="threesome-number pm10-number">--</span>
                 </div>
                 <div class="threesome">
                     <span class="threesome-icon">NO<span class="leg">2</span></span>
-                    <span class="threesome-number no2-number"></span>
+                    <span class="threesome-number no2-number">--</span>
                 </div>
             </div>
         </div>
         <div class="guess">
-            <p class="main-guess">好天气至少还会持续到明天的</p>
-            <p class="sub-guess">我们公司放假了，你们呢？</p>
+            <p class="main-guess">--</p>
+            <p class="sub-guess">--</p>
         </div>
         <div id="aqiChart"></div>
 
@@ -50,6 +50,11 @@
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript">
             app.initialize();
+
+            jQuery(document).ready(function($) {
+                getGuessData();
+                getAirData(getDayChart);
+            });
         </script>
     </body>
 </html>

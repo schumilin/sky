@@ -27,74 +27,102 @@ var app = {
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
 
-        console.log('Received Event: ' + id);
+        // console.log('Received Event: ' + id);
     }
 };
 
-// AVOS
+// AVOS init
 AV.initialize("2uu9d14470rpv39bb1178vsddmkdfgis13zfr2be0vyeuog8", "o33s1rvaukqedeforme8f10wegjv69rdw0wjoei2cuka4u9q");
 
 // important for chart
 var pm25Array = [];
 
-// get PM25 Array from AVOS DB
-var father = AV.Object.extend("aqiOneday");
-var son = new AV.Query(father);
-son.descending("createdAt");
-son.limit(24);
-son.find({
-  success: function(results) {
-    var obj = null;
+// get one day chart data from AVOS DB
+var getDayChart = function () {
+    var father = AV.Object.extend("aqiOneday");
+    var son = new AV.Query(father);
+    son.descending("createdAt");
+    son.limit(24);
+    son.find({
+        success: function(results) {
+            var obj = null;
 
-    for (var i = 0; i < results.length; i++) {
-        obj = results[i];
-        pm25Array.unshift(obj.get('aqiArray'));
-    }
+            for (var i = 0; i < results.length; i++) {
+                obj = results[i];
+                pm25Array.unshift(obj.get('aqiArray'));
+            }
 
-    renderChart();
-  },
-  error: function(error) {
-    alert("avos error");
-  }
-});
+            renderChart();
+        },
+        error: function(error) {
+            // alert("avos error");
+        }
+    });
+};
+
+// get guess data from AVOS DB
+var getGuessData = function () {
+    var father = AV.Object.extend("guess");
+    var son = new AV.Query(father);
+    son.descending("createdAt");
+    son.limit(1);
+    son.find({
+        success: function(results) {
+            var obj = results[0];
+            $('.main-guess').html(obj.get('first'));
+            $('.sub-guess').html(obj.get('second'));
+        },
+        error: function(error) {
+            // alert("avos error");
+        }
+    });
+};
 
 // get live number from pm25.in
-$.ajax({
-    dataType: "jsonp",
-    url: 'http://www.pm25.in/api/querys/aqis_by_station.json',
-    data: {
-        station_code: '1006A',
-        token: '5j1znBVAsnSf5xQyNQyq'
-    }
-}).done(function(data) {
-    var aqiObj = data[0];
-    var date = aqiObj.time_point.slice(0,10);
-    var time = aqiObj.time_point.slice(11,16);
+var getAirData = function (callback) {
+    $.ajax({
+        dataType: "jsonp",
+        url: 'http://www.pm25.in/api/querys/aqis_by_station.json',
+        data: {
+            station_code: '1006A',
+            token: 'e7HnxFo18ZxJS5q6qHJN'
+        }
+    }).done(function(data) {
+        var aqiObj = data[0];
+        var date = aqiObj.time_point.slice(0,10);
+        var time = aqiObj.time_point.slice(11,16);
 
-    $('.aqi-number').html(aqiObj.aqi);
-    $('.pm10-number').html(aqiObj.pm10);
-    $('.pm25-number').html(aqiObj.pm2_5);
-    $('.no2-number').html(aqiObj.no2);
-    $('.level').html(aqiObj.quality);
-    $('.time').html(time);
-    $('.date').html(date);
+        $('.aqi-number').html(aqiObj.aqi);
+        $('.pm10-number').html(aqiObj.pm10);
+        $('.pm25-number').html(aqiObj.pm2_5);
+        $('.no2-number').html(aqiObj.no2);
+        $('.level').html(aqiObj.quality);
+        $('.time').html(time);
+        $('.date').html(date);
 
-    // enter animation
-    setTimeout(function () {
-        $('.top-bar').addClass('complete');
-    },0);
-    setTimeout(function () {
-        $('.aqi-number').addClass('complete').css('opacity','1');
-    },500);
-    setTimeout(function () {
-        $('.threesome').addClass('complete');
-    },1200);
-    setTimeout(function () {
-        $('.guess').addClass('complete');
-    },1600);
-}).fail(function() {
-    alert( "pm25in error" );
-});
+        // enter animation
+        setTimeout(function () {
+            $('.top-bar').addClass('complete');
+        },0);
+        setTimeout(function () {
+            $('.aqi-number').addClass('complete').css('opacity','1');
+        },500);
+        setTimeout(function () {
+            $('.threesome').addClass('complete');
+        },1200);
+        setTimeout(function () {
+            $('.guess').addClass('complete');
+        },1600);
+
+        if (callback) {
+            setTimeout(function () {
+                callback();
+            },2000);
+        }
+    }).fail(function() {
+        // alert( "pm25in error" );
+    });
+};
 
 // highchart config
 var renderChart = function () {
@@ -195,4 +223,4 @@ var renderChart = function () {
             data: pm25Array
         }]
     });
-}
+};
