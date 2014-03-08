@@ -139,7 +139,7 @@ var renderChart = function () {
 
     $('#aqiChart').highcharts({
         chart: {
-            type: 'spline',
+            type: 'areaspline',
             backgroundColor: 'transparent'
         },
         credits: {
@@ -189,6 +189,7 @@ var renderChart = function () {
             tickInterval: 100
         },
         legend: {
+            enabled: false,
             borderWidth: 0,
             itemStyle: {
                 color: '#fff',
@@ -197,10 +198,12 @@ var renderChart = function () {
         },
         plotOptions: {
             series: {
+                fillColor: grey1,
+                lineWidth: 2,
                 marker: {
-                    radius: 2
+                    radius: 1.5
                 },
-                pointStart: Date.UTC(year, month, date, (hour-23)),
+                pointStart: Date.UTC(year, month, date, (hour-24)),
                 pointInterval: 3600 * 1000
             }
         },
@@ -209,7 +212,7 @@ var renderChart = function () {
             borderColor: null,
             shadow: false,
             pointFormat: '{point.y}',
-            valueSuffix: 'μg',
+            valuePrefix: 'AQI:',
             xDateFormat: '%H:00',
             style: {
                 color: grey3

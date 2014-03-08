@@ -29,7 +29,6 @@
         <p class="car"></p>
     </div>
     <hr>
-    <iframe id="alonso" src="http://www.young-0.com/airquality/index.php?cn=1" frameborder="0"></iframe>
 
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/av-0.3.1.min.js"></script>
@@ -55,25 +54,46 @@
         });
 
         $('.fuck').on('click', function () {
+            fuckData();
+        });
+
+        function fuckData () {
             var array = [];
             var domArray = $('#alonso').contents().find('.gr2');
+
             domArray.each(function (index, el) {
                 array.unshift(parseInt($(el).text()));
             });
 
             var father = AV.Object.extend('aqiChart');
             var son = new father();
+
             son.set('data', array);
 
             son.save(null, {
-              success: function(data) {
-                $('.car').html(array);
-              },
-              error: function(data, error) {
-                $('.car').html('Failed to create new object, with error code: ' + error.description);
-              }
+                success: function(data) {
+                    $('.car').html(array);
+                },
+                error: function(data, error) {
+                    $('.car').html('Failed to create new object, with error code: ' + error.description);
+                }
             });
-        });
+        }
+
+        function createIframe () {
+            $('iframe').remove();
+            var iframe = document.createElement('iframe');
+            iframe.setAttribute('id', 'alonso');
+            iframe.src = 'http://www.young-0.com/airquality/index.php?cn=1';
+            iframe.onload = function(){
+                fuckData();
+            };
+            document.body.appendChild(iframe);
+        }
+
+        setInterval(function () {
+            createIframe();
+        }, 600000);
     </script>
 </body>
 </html>
