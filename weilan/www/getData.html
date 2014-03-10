@@ -84,7 +84,7 @@
             $('iframe').remove();
             var iframe = document.createElement('iframe');
             iframe.setAttribute('id', 'alonso');
-            iframe.src = 'http://www.young-0.com/airquality/index.php?cn=1';
+            iframe.src = 'http://www.young-0.com/airquality/index.php';
             iframe.onload = function(){
                 fuckData();
             };
@@ -93,7 +93,11 @@
 
         setInterval(function () {
             createIframe();
-        }, 600000);
+        }, 1200000);
+
+        $(document).ready(function() {
+            createIframe();
+        });
     </script>
 </body>
 </html>
