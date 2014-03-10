@@ -1,0 +1,64 @@
+$borderColor: rgba(255,255,255,0.3);
+$backgroundColor: rgba(255,255,255,0.2);
+
+@font-face {
+    font-family: 'Exo 2';
+    font-style: normal;
+    font-weight: 100;
+    src: local('Exo 2 Thin'), local('Exo2-Thin'), url(../font/exo.woff) format('woff');
+}
+body{
+    color: #fff;
+    background: url(../img/bg.png);
+    background-size: 100%;
+    font: 14px/21px 'Exo 2', sans-serif;
+    font-weight: 100;
+    margin: 20px;
+}
+h1,h2,h3,h4,h5,h6 {
+    margin: 15px 0;
+}
+a {
+    color: #fff;
+    text-decoration: none;
+}
+button {
+    font-size: 34px;
+}
+iframe {
+    width: 100%;
+    height: 200px;
+    background: #FFF;
+    margin-top: 15px;
+    border: 0;
+}
+input {
+    width: 200px;
+    padding: 5px;
+    color: #fff;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid $borderColor;
+    outline: 0;
+
+    &::-webkit-input-placeholder {
+        color: #fff;
+    }
+}
+.btn {
+    background: $backgroundColor;
+    display: inline-block;
+    padding: 0 10px;
+    line-height: 30px;
+}
+.fast-link {
+    border-top: 1px solid $borderColor;
+
+    .btn {
+        margin-right: 10px;
+    }
+}
+.input-wrap, .crawler {
+    margin-top: 15px;
+    border-top: 1px solid $borderColor;
+}

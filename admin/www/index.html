@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin</title>
-    <link rel="stylesheet" href="css/data.css">
+    <link rel="stylesheet" href="css/index.css">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 </head>
 <body>
@@ -16,7 +16,7 @@
         <h4>Fast Link</h4>
         <a class="btn" href="pm25.in" target="_blank">PM25.in</a>
         <a class="btn" href="http://www.young-0.com/airquality/index.php" target="_blank">Young-0</a>
-        <a class="btn" href="https://cn.avoscloud.com/applist.html#/apps" target="_blank">AVOS Console</a>
+        <a class="btn" href="https://cn.avoscloud.com/applist.html#/apps" target="_blank">AVOS</a>
     </div>
 
     <div class="input-wrap">
@@ -79,7 +79,7 @@
 
             son.save(null, {
                 success: function(data) {
-                    $('.car').html('数据爬取成功,并已经存入数据库.');
+                    $('.car').html('数据爬取成功，并已经存入数据库.');
                 },
                 error: function(data, error) {
                     $('.car').html('数据爬取失败.');
