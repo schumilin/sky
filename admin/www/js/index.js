@@ -73,6 +73,35 @@ $('.fuck').on('click', function () {
 });
 
 function fuckData () {
+    // fuck pm25.in 
+    $.ajax({
+        dataType: "jsonp",
+        url: 'http://www.pm25.in/api/querys/aqi_details.json',
+        data: {
+            city: 'beijing',
+            token: 'e7HnxFo18ZxJS5q6qHJN'
+        }
+    }).done(function(data) {
+        var aqiObj = data.pop();
+
+        var father = AV.Object.extend('nowData');
+        var son = new father();
+
+        son.set('dataObj', aqiObj);
+
+        son.save(null, {
+            success: function(data) {
+                $('.car').html('数据爬取成功,并已经存入数据库.');
+            },
+            error: function(data, error) {
+                $('.car').html('pm25.in 保存失败.');
+            }
+        });
+
+    }).fail(function() {
+        $('.car').html('pm25.in 爬取失败.');
+    });
+    // fuck young-0
     var array = [];
     var domArray = $('#alonso').contents().find('.gr2');
 
@@ -90,7 +119,7 @@ function fuckData () {
             $('.car').html('数据爬取成功,并已经存入数据库.');
         },
         error: function(data, error) {
-            $('.car').html('数据爬取失败.');
+            $('.car').html('young-0 爬取失败.');
         }
     });
 }

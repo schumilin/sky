@@ -77,47 +77,49 @@ var getGuessData = function () {
 
 // get live number from pm25.in
 var getAirData = function (callback) {
-    $.ajax({
-        dataType: "jsonp",
-        url: 'http://www.pm25.in/api/querys/aqis_by_station.json',
-        data: {
-            station_code: '1006A',
-            token: 'e7HnxFo18ZxJS5q6qHJN'
-        }
-    }).done(function(data) {
-        var aqiObj = data[0];
-        var date = aqiObj.time_point.slice(0,10);
-        var time = aqiObj.time_point.slice(11,16);
+    var father = AV.Object.extend("nowData");
+    var son = new AV.Query(father);
+    son.descending("createdAt");
+    son.limit(1);
+    son.find({
+        success: function(results) {
+            var obj = results[0];
+            var aqiObj = obj.get('dataObj');
+            
+            var date = aqiObj.time_point.slice(0,10);
+            var time = aqiObj.time_point.slice(11,16);
 
-        $('.aqi-number').html(aqiObj.aqi);
-        $('.pm10-number').html(aqiObj.pm10);
-        $('.pm25-number').html(aqiObj.pm2_5);
-        $('.no2-number').html(aqiObj.no2);
-        $('.level').html(aqiObj.quality);
-        $('.time').html(time);
-        $('.date').html(date);
+            $('.aqi-number').html(aqiObj.aqi);
+            $('.pm10-number').html(aqiObj.pm10);
+            $('.pm25-number').html(aqiObj.pm2_5);
+            $('.no2-number').html(aqiObj.no2);
+            $('.level').html(aqiObj.quality);
+            $('.time').html(time);
+            $('.date').html(date);
 
-        // enter animation
-        setTimeout(function () {
-            $('.top-bar').addClass('complete');
-        },0);
-        setTimeout(function () {
-            $('.aqi-number').addClass('complete').css('opacity','1');
-        },500);
-        setTimeout(function () {
-            $('.threesome').addClass('complete');
-        },1200);
-        setTimeout(function () {
-            $('.guess').addClass('complete');
-        },1600);
-
-        if (callback) {
+            // enter animation
             setTimeout(function () {
-                callback();
-            },2000);
+                $('.top-bar').addClass('complete');
+            },0);
+            setTimeout(function () {
+                $('.aqi-number').addClass('complete').css('opacity','1');
+            },500);
+            setTimeout(function () {
+                $('.threesome').addClass('complete');
+            },1200);
+            setTimeout(function () {
+                $('.guess').addClass('complete');
+            },1600);
+
+            if (callback) {
+                setTimeout(function () {
+                    callback();
+                },2000);
+            }
+        },
+        error: function(error) {
+            // alert("avos error");
         }
-    }).fail(function() {
-        // alert( "pm25in error" );
     });
 };
 
