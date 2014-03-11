@@ -133,7 +133,7 @@ var renderChart = function () {
     var year = calendar.getYear();
     var month = calendar.getMonth();
     var date = calendar.getDate();
-    var hour = calendar.getHours() - 1;
+    var hour = calendar.getHours();
     var bigTitle = null;
     var subTitle = null;
 
