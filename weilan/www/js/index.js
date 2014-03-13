@@ -89,6 +89,8 @@ var getAirData = function () {
             var date = aqiObj.time_point.slice(0,10);
             var time = aqiObj.time_point.slice(11,16);
 
+            var shareUrl = '';
+
             $('.aqi-number').html(aqiObj.aqi);
             $('.pm10-number').html(aqiObj.pm10);
             $('.pm25-number').html(aqiObj.pm2_5);
@@ -96,6 +98,9 @@ var getAirData = function () {
             $('.level').html(aqiObj.quality);
             $('.time').html(time);
             $('.date').html(date);
+
+            shareUrl = 'http://service.weibo.com/share/share.php?appkey=1483181040&relateUid=1727978503&title=' + encodeURIComponent('今天北京空气污染指数' + aqiObj.aqi + '，快使用蔚蓝一起查看最新的空气污染指数吧~') + '&url=&pic=';
+            $('.share-btn').attr('href', shareUrl);
 
             // enter animation
             setTimeout(function () {

@@ -14,17 +14,22 @@ $grey4:rgba(255,255,255,0.1);
 body{
     background: url(../img/bg.png);
     background-size: 100%;
-    font: 14px/21px 'Exo 2', sans-serif;
+    font: 15px/21px 'Exo 2', sans-serif;
     font-weight: 100;
     color: $grey1;
     margin: 0 0 56px 0;
 }
+a {
+    color: $grey1;
+    text-decoration: none;
+}
+
 .top-bar {
     @include transition(all .5s ease-out);
     @include transform(translate3d(0,-60px,0));
     text-align: center;
     position: relative;
-    margin: 10px 10px 10px;
+    margin: 20px 10px 10px;
 
     &.complete {
         @include transform(translate3d(0,0,0));
