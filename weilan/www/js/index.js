@@ -76,7 +76,7 @@ var getGuessData = function () {
 };
 
 // get live number from pm25.in
-var getAirData = function (callback) {
+var getAirData = function () {
     var father = AV.Object.extend("nowData");
     var son = new AV.Query(father);
     son.descending("createdAt");
@@ -109,13 +109,9 @@ var getAirData = function (callback) {
             },1200);
             setTimeout(function () {
                 $('.guess').addClass('complete');
+                $('#aqiChart').addClass('complete');
+                $('.weather-info').addClass('complete');
             },1600);
-
-            if (callback) {
-                setTimeout(function () {
-                    callback();
-                },2000);
-            }
         },
         error: function(error) {
             // alert("avos error");
@@ -136,7 +132,7 @@ var renderChart = function () {
     var month = calendar.getMonth();
     var date = calendar.getDate();
     var hour = calendar.getHours();
-    var bigTitle = null;
+    var bigTitle = '过去 24 小时空气污染指数趋势图';
     var subTitle = null;
 
     $('#aqiChart').highcharts({
@@ -156,7 +152,8 @@ var renderChart = function () {
         title: {
             text: bigTitle,
             style: {
-                    color: grey3
+                    color: grey3,
+                    fontSize: '13px'
                 }
         },
         subtitle: {
@@ -169,7 +166,7 @@ var renderChart = function () {
             type: 'datetime',
             lineColor: grey5,
             tickColor: grey5,
-            tickInterval: 3600 * 1000 * 4,
+            tickInterval: 3600 * 1000 * 6,
             labels: {
                 style: {
                     color: grey2
@@ -210,8 +207,8 @@ var renderChart = function () {
             }
         },
         tooltip: {
-            backgroundColor: grey1,
-            borderColor: null,
+            backgroundColor: 'rgba(0,0,0,0.2)',
+            borderColor: 'rgba(0,0,0,0.2)',
             shadow: false,
             pointFormat: '{point.y}',
             valuePrefix: 'AQI:',
