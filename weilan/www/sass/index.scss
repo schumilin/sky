@@ -248,3 +248,30 @@ a {
         @include transform(scale3d(1,1,1));
     }
 }
+
+// loading
+.loader, .loader2 {
+    position: absolute;
+    top: 85px;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    margin: 0 0 0 -20px;
+    border: 2px solid transparent;
+    border-top-color: #fff;
+    border-radius: 50%;
+    -webkit-animation: spin 1s infinite;
+}
+
+.loader2 {
+    -webkit-animation: spin 2s infinite ease;
+}
+
+@include keyframes (spin) {
+    from {
+        @include transform(rotate(0));
+    }
+    to {
+        @include transform(rotate(360deg));
+    }
+}

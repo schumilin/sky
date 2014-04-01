@@ -83,6 +83,8 @@ var getAirData = function () {
     son.limit(1);
     son.find({
         success: function(results) {
+            $('.loading-wrap').hide();
+
             var obj = results[0];
             var aqiObj = obj.get('dataObj');
             

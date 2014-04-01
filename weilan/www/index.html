@@ -10,6 +10,10 @@
         <title>蔚蓝</title>
     </head>
     <body>
+        <div class="loading-wrap">
+            <div class="loader"></div>
+            <div class="loader2"></div>
+        </div>
         <div class="top-bar">
             <span class="pm25-icon">AQI</span>
             <span class="level"></span>
@@ -85,8 +89,8 @@
             app.initialize();
 
             jQuery(document).ready(function($) {
-                getGuessData();
                 getAirData();
+                getGuessData();
                 getDayChart();
             });
         </script>
