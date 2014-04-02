@@ -50,6 +50,81 @@ var app = {
 
 AV.initialize("2uu9d14470rpv39bb1178vsddmkdfgis13zfr2be0vyeuog8", "o33s1rvaukqedeforme8f10wegjv69rdw0wjoei2cuka4u9q");
 
+function fuckData () {
+
+    var father = AV.Object.extend('newWorld');
+    var son = new father();
+
+    // fuck young-0
+    var array = [];
+    var domArray = $('#alonso').contents().find('.gr2');
+
+    domArray.each(function (index, el) {
+        array.unshift(parseInt($(el).text(), 10));
+    });
+
+    son.set('chartData', array);
+
+    $('.car').html('young-0 写入完毕');
+
+    // fuck pm25.in
+    $.ajax({
+        dataType: "jsonp",
+        url: 'http://www.pm25.in/api/querys/aqi_details.json',
+        data: {
+            city: 'beijing',
+            token: 'e7HnxFo18ZxJS5q6qHJN'
+        }
+    }).done(function(data) {
+
+        var aqiObj = data.pop();
+
+        son.set('liveData', aqiObj);
+
+        $('.car').append('<br>pm25.in 写入完毕');
+
+        son.save(null, {
+            success: function(data) {
+                $('.car').append('<br>数据已经存入数据库.');
+            },
+            error: function(data, error) {
+                $('.car').append('<br>数据保存数据库时失败.');
+            }
+        });
+    }).fail(function() {
+        $('.car').append('<br>pm25.in 接口请求失败.');
+    });
+}
+
+function runCrawler () {
+
+    $('iframe').remove();
+
+    var iframe = document.createElement('iframe');
+
+    document.body.appendChild(iframe);
+    iframe.setAttribute('id', 'alonso');
+    iframe.src = 'http://www.young-0.com/airquality/index.php';
+
+    iframe.onload = function(){
+        fuckData();
+    };
+}
+
+function initCrawlerTimer () {
+
+    runCrawler();
+
+    setInterval(function () {
+        runCrawler();
+    }, 1200000);
+}
+
+$('.fuck').on('click', function () {
+    initCrawlerTimer();
+});
+
+// set guess info
 $('.save-guess').on('click', function () {
     var first = $('.first').val();
     var second = $('.second').val();
@@ -59,86 +134,11 @@ $('.save-guess').on('click', function () {
     son.set('first', first);
     son.set('second', second);
     son.save(null, {
-      success: function(data) {
-        $('.car').html('预测数据保存成功.');
-      },
-      error: function(data, error) {
-        $('.car').html('预测数据保存失败.');
-      }
-    });
-});
-
-$('.fuck').on('click', function () {
-    fuckData();
-});
-
-function fuckData () {
-    // fuck pm25.in 
-    $.ajax({
-        dataType: "jsonp",
-        url: 'http://www.pm25.in/api/querys/aqi_details.json',
-        data: {
-            city: 'beijing',
-            token: 'e7HnxFo18ZxJS5q6qHJN'
-        }
-    }).done(function(data) {
-        var aqiObj = data.pop();
-
-        var father = AV.Object.extend('nowData');
-        var son = new father();
-
-        son.set('dataObj', aqiObj);
-
-        son.save(null, {
-            success: function(data) {
-                $('.car').html('数据爬取成功,并已经存入数据库.');
-            },
-            error: function(data, error) {
-                $('.car').html('pm25.in 保存失败.');
-            }
-        });
-
-    }).fail(function() {
-        $('.car').html('pm25.in 爬取失败.');
-    });
-    // fuck young-0
-    var array = [];
-    var domArray = $('#alonso').contents().find('.gr2');
-
-    domArray.each(function (index, el) {
-        array.unshift(parseInt($(el).text()));
-    });
-
-    var father = AV.Object.extend('aqiChart');
-    var son = new father();
-
-    son.set('data', array);
-
-    son.save(null, {
         success: function(data) {
-            $('.car').html('数据爬取成功,并已经存入数据库.');
+        $('.car').html('预测数据保存成功.');
         },
         error: function(data, error) {
-            $('.car').html('young-0 爬取失败.');
+        $('.car').html('预测数据保存失败.');
         }
     });
-}
-
-function createIframe () {
-    $('iframe').remove();
-    var iframe = document.createElement('iframe');
-    iframe.setAttribute('id', 'alonso');
-    iframe.src = 'http://www.young-0.com/airquality/index.php';
-    iframe.onload = function(){
-        fuckData();
-    };
-    document.body.appendChild(iframe);
-}
-
-setInterval(function () {
-    createIframe();
-}, 1200000);
-
-$(document).ready(function() {
-    createIframe();
 });
