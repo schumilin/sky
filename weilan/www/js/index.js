@@ -37,7 +37,6 @@ AV.initialize("2uu9d14470rpv39bb1178vsddmkdfgis13zfr2be0vyeuog8", "o33s1rvaukqed
 // important for chart
 var pm25Array = [];
 
-// get one day chart data from AVOS DB
 var getDayChart = function () {
     var father = AV.Object.extend("aqiChart");
     var son = new AV.Query(father);
@@ -57,7 +56,6 @@ var getDayChart = function () {
     });
 };
 
-// get guess data from AVOS DB
 var getGuessData = function () {
     var father = AV.Object.extend("guess");
     var son = new AV.Query(father);
@@ -75,7 +73,26 @@ var getGuessData = function () {
     });
 };
 
-// get live number from pm25.in
+var getWeatherData = function () {
+    var father = AV.Object.extend("weather");
+    var son = new AV.Query(father);
+    son.descending("createdAt");
+    son.limit(1);
+    son.find({
+        success: function(results) {
+            var obj = results[0];
+            var weatherObj = obj.get('weatherObj');
+            $('.day-temperature').html(weatherObj.temp + '℃');
+            $('.humidity').html(weatherObj.SD);
+            $('.wind-direction').html(weatherObj.WD);
+            $('.wind-level').html(weatherObj.WS);
+        },
+        error: function(error) {
+            // alert("avos error");
+        }
+    });
+};
+
 var getAirData = function () {
     var father = AV.Object.extend("nowData");
     var son = new AV.Query(father);

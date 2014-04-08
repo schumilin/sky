@@ -54,6 +54,30 @@ var timer = 0;
 
 function fuckData () {
 
+    // fuck weather
+    $.ajax({
+        dataType: "json",
+        url: 'http://www.weather.com.cn/data/sk/101010100.html'
+    }).done(function(data) {
+        var weatherObj = data.weatherinfo;
+
+        var father = AV.Object.extend('weather');
+        var son = new father();
+
+        son.set('weatherObj', weatherObj);
+
+        son.save(null, {
+            success: function(data) {
+                $('.car').append('<br>weather 爬取成功,并已经存入数据库.');
+            },
+            error: function(data, error) {
+                $('.car').append('<br>weather 存入数据库失败.');
+            }
+        });
+
+    }).fail(function() {
+        $('.car').append('<br>weather 爬取失败.');
+    });
     // fuck pm25.in 
     $.ajax({
         dataType: "jsonp",
@@ -98,7 +122,7 @@ function fuckData () {
 
         son.save(null, {
             success: function(data) {
-                $('.car').append('<br>young-0 数据爬取成功,并已经存入数据库.');
+                $('.car').append('<br>young-0 爬取成功,并已经存入数据库.');
             },
             error: function(data, error) {
                 $('.car').append('<br>young-0 存入数据库失败.');
