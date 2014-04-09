@@ -221,6 +221,7 @@ var renderChart = function () {
         },
         plotOptions: {
             series: {
+                connectNulls: true,
                 fillColor: grey1,
                 lineWidth: 2,
                 marker: {
