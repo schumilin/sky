@@ -2,3 +2,5 @@ weilan/platforms/*
 weilan/www/.sass-cache/*
 admin/platforms/*
 admin/www/.sass-cache/*
+vettel/platforms/*
+vettel/www/.sass-cache/*
