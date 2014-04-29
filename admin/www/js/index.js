@@ -1,21 +1,3 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
 var app = {
     // Application Constructor
     initialize: function() {
@@ -52,9 +34,7 @@ AV.initialize("2uu9d14470rpv39bb1178vsddmkdfgis13zfr2be0vyeuog8", "o33s1rvaukqed
 
 var timer = 0;
 
-function fuckData () {
-
-    // fuck weather
+var fuckWeather = function () {
     $.ajax({
         dataType: "json",
         url: 'http://www.weather.com.cn/data/sk/101010100.html'
@@ -78,7 +58,9 @@ function fuckData () {
     }).fail(function() {
         $('.car').append('<br>weather 爬取失败.');
     });
-    // fuck pm25.in 
+};
+
+var fuckPm25in = function () {
     $.ajax({
         dataType: "jsonp",
         url: 'http://www.pm25.in/api/querys/aqi_details.json',
@@ -106,7 +88,9 @@ function fuckData () {
     }).fail(function() {
         $('.car').append('<br>pm25.in 爬取失败.');
     });
-    // fuck young-0
+};
+
+var fuckY0 = function () {
     var array = [];
     var domArray = $('#alonso').contents().find('.gr2');
 
@@ -129,9 +113,9 @@ function fuckData () {
             }
         });
     }
-}
+};
 
-function runCrawler () {
+var crawl = function () {
 
     $('iframe').remove();
     $('.car').html('Console:');
@@ -140,44 +124,49 @@ function runCrawler () {
 
     document.body.appendChild(iframe);
     iframe.setAttribute('id', 'alonso');
-    iframe.src = 'http://www.young-0.com/airquality/index.php';
+    iframe.src = 'http://www.young-0.com/airquality/index.php?cn=1';
 
     iframe.onload = function(){
-        fuckData();
+        fuckY0();
     };
-}
 
-function initCrawlerTimer () {
+    fuckPm25in();
+    fuckWeather();
+};
 
-    runCrawler();
+var initCrawlerTimer = function () {
+
+    crawl();
 
     clearInterval(timer);
     timer = 0;
 
     timer = setInterval(function () {
-        runCrawler();
+        crawl();
     }, 1200000);
-}
+};
 
-$('.fuck').on('click', function () {
-    initCrawlerTimer();
-});
+$(document).ready(function() {
 
-// set guess info
-$('.save-guess').on('click', function () {
-    var first = $('.first').val();
-    var second = $('.second').val();
+    $('.save-guess').on('click', function () {
+        var first = $('.first').val();
+        var second = $('.second').val();
 
-    var father = AV.Object.extend('guess');
-    var son = new father();
-    son.set('first', first);
-    son.set('second', second);
-    son.save(null, {
-        success: function(data) {
-        $('.car').append('<br>预测数据保存成功.');
-        },
-        error: function(data, error) {
-        $('.car').append('<br>预测数据保存失败.');
-        }
+        var father = AV.Object.extend('guess');
+        var son = new father();
+        son.set('first', first);
+        son.set('second', second);
+        son.save(null, {
+            success: function(data) {
+            $('.car').append('<br>预测数据保存成功.');
+            },
+            error: function(data, error) {
+            $('.car').append('<br>预测数据保存失败.');
+            }
+        });
+    });
+
+    $('.fuck').on('click', function () {
+        initCrawlerTimer();
     });
 });
