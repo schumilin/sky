@@ -34,7 +34,6 @@ a {
     @include transform(translate3d(0,0,0));
     height: 100%;
 }
-
 .child-wrapper {
     height: 100%;
     @include transform(translate3d(0,0,0));
@@ -53,9 +52,12 @@ a {
     border-radius: 50%;
     -webkit-animation: spin 1s infinite;
 }
-
 .loader2 {
     -webkit-animation: spin 2s infinite ease;
+}
+.footer-time {
+    margin: 0;
+    padding: 10px 10px 40px;
 }
 
 // summary
@@ -75,7 +77,8 @@ a {
         left: 0;
         top: 0;
         background: $grey3;
-        width: 60px;
+        padding: 0 10px;
+        font-size: 12px;
     }
     .time, .date {
         position: absolute;
@@ -300,10 +303,14 @@ a {
         .intro-intro {
             clear: both;
             padding: 10px;
-            font-size: 12px;
+            font-size: 13px;
             line-height: 1.5;
         }
     }
+}
+#monthChart {
+    width: 100%;
+    height: 220px;
 }
 
 // points

@@ -43,7 +43,7 @@ var iscrollInit = function () {
 
     var wrapperWidth = 0;
     var pageNumber = 4;
-    var startPage = 3;
+    var startPage = 0;
     
     var parentConfig = {
         snap: true,
@@ -64,7 +64,6 @@ var iscrollInit = function () {
     myScroll.scrollToPage(startPage, 0, 0);
 
     var s1 = new iScroll('wrapper1', childConfig);
-    var s2 = new iScroll('wrapper2', childConfig);
 };
 
 iscrollInit();
@@ -94,7 +93,7 @@ var getAqiChart = function () {
             var obj = results[0];
 
             pm25Array = obj.get('data');
-            renderChart();
+            renderDayChart();
 
             var usNumber = obj.get('data').pop();
             var usQuality = '--';
@@ -184,6 +183,7 @@ var getAirData = function () {
             $('.level').html(aqiObj.quality);
             $('.time').html(time);
             $('.date').html(date);
+            $('.footer-time').append(date + '&nbsp;&nbsp;' + time);
 
             // render detail
             $('.china').find('.number').html(aqiObj.aqi);
@@ -230,12 +230,12 @@ var getPointsData = function () {
             var html = '';
             var cObj;
             var render = function (name, one, two, three) {
-                return '<tr><td>' + name + '</td><td style="font-weight: bold;font-size: 14px;">' + one + '</td><td>' + two + '</td><td>' + three + '</td></tr>';
+                return '<tr><td>' + name + '</td><td>' + one + '</td><td>' + two + '</td><td style="font-weight: bold;font-size: 14px;">' + three + '</td></tr>';
             };
 
             for (var i = 0; i < aqiObj.length; i++) {
                 cObj = aqiObj[i];
-                html += render(cObj.position_name, cObj.aqi, cObj.pm2_5, cObj.pm10);
+                html += render(cObj.position_name, cObj.pm2_5, cObj.pm10, cObj.aqi);
             }
 
             $('.points-table').append(html);
@@ -272,8 +272,8 @@ var getCitysData = function () {
 
             for (var j = 0; j < aqiObj.length; j++) {
                 if (aqiObj[j].area == '北京') {
-                    $('.mycity-rank').find('i').html(j + 1);
-                    $('.mycity-aqi').find('i').html(aqiObj[j].aqi);
+                    $('.mycity-rank').find('b').html(j + 1);
+                    $('.mycity-aqi').find('b').html(aqiObj[j].aqi);
                 }
             };
         },
@@ -284,7 +284,7 @@ var getCitysData = function () {
 };
 
 // highchart config
-var renderChart = function () {
+var renderDayChart = function () {
 
     var grey1 = 'rgba(255,255,255,0.20)';
     var grey2 = 'rgba(255,255,255,0.85)';
@@ -389,6 +389,113 @@ var renderChart = function () {
     });
 };
 
+var renderMonthChart = function () {
+
+    var grey1 = 'rgba(255,255,255,0.20)';
+    var grey2 = 'rgba(255,255,255,0.85)';
+    var grey3 = 'rgba(255,255,255,0.95)';
+    var grey4 = 'rgba(255,255,255,0.65)';
+    var grey5 = 'rgba(255,255,255,0.40)';
+    var calendar = new Date();
+    var year = calendar.getYear();
+    var month = calendar.getMonth() - 1;
+    var date = calendar.getDate();
+    var hour = calendar.getHours();
+    var bigTitle = '过去 30 天 PM2.5 污染指数趋势图 (美使馆)';
+    var subTitle = null;
+
+    $('#monthChart').highcharts({
+        chart: {
+            type: 'areaspline',
+            backgroundColor: 'transparent'
+        },
+        credits: {
+            enabled: false
+        },
+        exporting: {
+            enabled: false
+        },
+        colors: [
+           grey4
+        ],
+        title: {
+            text: bigTitle,
+            style: {
+                    color: grey3,
+                    fontSize: '13px'
+                }
+        },
+        subtitle: {
+            text: subTitle,
+            style: {
+                    color: grey3
+                }
+        },
+        xAxis: {
+            type: 'datetime',
+            lineColor: grey5,
+            tickColor: grey5,
+            tickInterval: 3600 * 1000 * 24 * 6,
+            labels: {
+                style: {
+                    color: grey2
+                }
+            }
+        },
+        yAxis: {
+            title: {
+                text: null
+            },
+            labels: {
+                style: {
+                    color: grey2
+                }
+            },
+            gridLineColor: grey1,
+            min: 0,
+            max: 500,
+            tickInterval: 100
+        },
+        legend: {
+            enabled: false,
+            borderWidth: 0,
+            itemStyle: {
+                color: '#fff',
+                fontWeight: 'bold'
+            }
+        },
+        plotOptions: {
+            series: {
+                connectNulls: true,
+                fillColor: grey1,
+                lineWidth: 2,
+                marker: {
+                    radius: 1.5
+                },
+                pointStart: Date.UTC(year, month, date),
+                pointInterval: 3600 * 1000 * 24
+            }
+        },
+        tooltip: {
+            backgroundColor: 'rgba(0,0,0,0.2)',
+            borderColor: 'rgba(0,0,0,0.2)',
+            shadow: false,
+            pointFormat: '{point.y}',
+            valuePrefix: '指数:',
+            xDateFormat: '%m-%d',
+            style: {
+                color: grey3
+            }
+        },
+        series: [{
+            name: 'pm2.5',
+            data: [70,150,220,200,190,180,190,200,280,180,150,180,200,150,160,140,160,180,170,190,110,150,160,180,190,200,100,150,100,120]
+        }]
+    });
+
+    var s2 = new iScroll('wrapper2', childConfig);
+};
+
 // AVOS init
 AV.initialize("2uu9d14470rpv39bb1178vsddmkdfgis13zfr2be0vyeuog8", "o33s1rvaukqedeforme8f10wegjv69rdw0wjoei2cuka4u9q");
 
@@ -398,3 +505,4 @@ getAqiChart();
 getWeatherData();
 getPointsData();
 getCitysData();
+renderMonthChart();
