@@ -1,0 +1,14 @@
+body {
+    margin: 0;
+    overflow-y: hidden;
+}
+.page {
+    float: left;
+    -webkit-transform: translate3d(0,0,0);
+    height: 100%;
+}
+
+#wrapper1, #wrapper2, #wrapper3 {
+    height: 100%;
+    -webkit-transform: translate3d(0,0,0);
+}
