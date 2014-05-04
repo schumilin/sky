@@ -13,20 +13,52 @@ $grey4:rgba(255,255,255,0.1);
 html {
     min-width: 320px;
 }
-body{
-    background: url(../img/bg.png);
+body {
+    background: url(../img/bg5.png);
     background-size: 100%;
-    font: 15px/21px 'Exo 2', sans-serif;
+    font: 15px/21px 'Exo 2', Roboto, sans-serif;
     font-weight: 100;
     color: $grey1;
     margin: 0 auto;
     max-width: 960px;
+    overflow-y: hidden;
 }
 a {
     color: $grey1;
     text-decoration: none;
 }
 
+// iscroll
+.page {
+    float: left;
+    @include transform(translate3d(0,0,0));
+    height: 100%;
+}
+
+.child-wrapper {
+    height: 100%;
+    @include transform(translate3d(0,0,0));
+}
+
+// loading
+.loader, .loader2 {
+    position: absolute;
+    top: 85px;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    margin: 0 0 0 -20px;
+    border: 2px solid transparent;
+    border-top-color: #fff;
+    border-radius: 50%;
+    -webkit-animation: spin 1s infinite;
+}
+
+.loader2 {
+    -webkit-animation: spin 2s infinite ease;
+}
+
+// summary
 .top-bar {
     @include transition(all .5s ease-out);
     @include transform(translate3d(0,-60px,0));
@@ -146,6 +178,7 @@ a {
     font-family: Arial, sans-serif;
     font-size: 13px;
     margin: 0 10px;
+    padding-bottom: 40px;
     overflow: hidden;
     opacity: 0;
     @include transition(all .5s);
@@ -194,6 +227,181 @@ a {
         }
     }
 }
+
+// detail
+.detail {
+    font-size: 14px;
+    font-weight: 300;
+
+    .detail-header {
+        margin: 15px 10px 5px;
+        overflow: hidden;
+
+        .title {
+            display: inline-block;
+            padding: 2px 10px;
+            background-color: $grey3;
+        }
+    }
+    .detail-dashboard {
+        overflow: hidden;
+        margin: 0 10px;
+
+        .china, .us {
+            width: 50%;
+            float: left;
+            text-align: center;
+        }
+        .title1, .title2 {
+            margin: 5px 0 0;
+        }
+        .number {
+            margin: 0 0 5px 0;
+            font-size: 60px;
+            line-height: 1;
+        }
+    }
+    .detail-intro {
+        margin: 5px 10px;
+        border-left: 1px solid $grey3;
+
+        .intro-title {
+            float: left;
+            position: relative;
+            background-color: $grey3;
+            padding: 0 0 0 10px;
+
+            .number {
+                margin-left: 10px;
+                font-weight: bold;
+            }
+            .cube {
+                position: absolute;
+                top: 0;
+                left: 100%;
+                height: 21px;
+                width: 21px;
+                opacity: 0.8;
+
+                &.level1 {
+                    background-color: #3baa24;
+                }
+                &.level2 {
+                    background-color: #FFBF00;
+                }
+                &.level3 {
+                    background-color: #D93600;
+                }
+                &.level4 {
+                    background-color: #4C0066;
+                }
+            }
+        }
+        .intro-intro {
+            clear: both;
+            padding: 10px;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+    }
+}
+
+// points
+#wrapper3 {
+    margin: 15px 10px;
+}
+.points {
+    font-size: 14px;
+    font-weight: 300;
+
+    .points-header {
+        overflow: hidden;
+
+        .title {
+            display: inline-block;
+            padding: 2px 10px;
+            background-color: $grey3;
+        }
+    }
+    .points-table {
+        font-size: 13px;
+        width: 100%;
+        border-collapse:collapse;
+
+        th, td {
+            line-height: 30px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+        }
+        tr:last-child td {
+            border-bottom: 0;
+        }
+    }
+    .point-suggest {
+        background-color: $grey4;
+        padding: 10px;
+        margin: 15px 0;
+
+        span {
+            display: block;
+            margin-bottom: 10px;
+        }
+        p {
+            margin: 0;
+        }
+    }
+}
+
+// points
+#wrapper4 {
+    margin: 15px 10px;
+}
+.citys {
+    font-size: 14px;
+    font-weight: 300;
+
+    .citys-header {
+        overflow: hidden;
+
+        .title {
+            display: inline-block;
+            padding: 2px 10px;
+            background-color: $grey3;
+        }
+    }
+    .citys-table {
+        font-size: 13px;
+        width: 100%;
+        border-collapse:collapse;
+
+        th, td {
+            line-height: 30px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+        }
+        tr:last-child td {
+            border-bottom: 0;
+        }
+    }
+    .my-city {
+        margin: 15px 0;
+        background-color: $grey4;
+        padding: 10px;
+
+        span {
+            display: inline-block;
+            text-align: center;
+        }
+
+        .mycity-name {
+            width: 20%;
+        }
+        .mycity-rank, .mycity-aqi {
+            width: 38%;
+        }
+    }
+}
+
 
 @include keyframes(bounceIn) {
     0% {
@@ -251,24 +459,6 @@ a {
     100% {
         @include transform(scale3d(1,1,1));
     }
-}
-
-// loading
-.loader, .loader2 {
-    position: absolute;
-    top: 85px;
-    left: 50%;
-    width: 40px;
-    height: 40px;
-    margin: 0 0 0 -20px;
-    border: 2px solid transparent;
-    border-top-color: #fff;
-    border-radius: 50%;
-    -webkit-animation: spin 1s infinite;
-}
-
-.loader2 {
-    -webkit-animation: spin 2s infinite ease;
 }
 
 @include keyframes (spin) {

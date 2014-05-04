@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8" />
@@ -10,58 +9,167 @@
         <title>蔚蓝</title>
     </head>
     <body>
-        <div class="loading-wrap">
-            <div class="loader"></div>
-            <div class="loader2"></div>
-        </div>
-        <div class="top-bar">
-            <span class="pm25-icon">AQI</span>
-            <span class="level"></span>
-            <span class="location">北京市</span>
-            <span class="date"></span>
-            <span class="time"></span>
-        </div>
-        <div class="dashboard">
-            <div class="big-bang">
-                <span class="aqi-number">--</span>
-            </div>
-            <div class="threesome-wrap">
-                <div class="threesome">
-                    <span class="threesome-icon">PM 2.5</span>
-                    <span class="threesome-number pm25-number">--</span>
+        <div id="pageWrapper">
+            <div id="pageScroller">
+                <div class="page">
+                    <div id="wrapper1" class="child-wrapper summary">
+                        <div class="scroller">
+                            <div class="loading-wrap">
+                                <div class="loader"></div>
+                                <div class="loader2"></div>
+                            </div>
+                            <div class="top-bar">
+                                <span class="pm25-icon">AQI</span>
+                                <span class="level"></span>
+                                <span class="location">北京市</span>
+                                <span class="date"></span>
+                                <span class="time"></span>
+                            </div>
+                            <div class="dashboard">
+                                <div class="big-bang">
+                                    <span class="aqi-number">--</span>
+                                </div>
+                                <div class="threesome-wrap">
+                                    <div class="threesome">
+                                        <span class="threesome-icon">PM 2.5</span>
+                                        <span class="threesome-number pm25-number">--</span>
+                                    </div>
+                                    <div class="threesome">
+                                        <span class="threesome-icon">PM 10</span>
+                                        <span class="threesome-number pm10-number">--</span>
+                                    </div>
+                                    <div class="threesome">
+                                        <span class="threesome-icon">NO<span class="leg">2</span></span>
+                                        <span class="threesome-number no2-number">--</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="guess">
+                                <p class="main-guess">--</p>
+                                <p class="sub-guess">--</p>
+                            </div>
+                            <div id="aqiChart"></div>
+                            <div class="weather-info">
+                                <div class="weather-threesome">
+                                    <img class="weather-icon" src="img/day-icon.png"></img>
+                                    <span>气温</span>
+                                    <span class="day-temperature">--</span>
+                                </div>
+                                <div class="weather-threesome">
+                                    <img class="weather-icon" src="img/night-icon.png"></img>
+                                    <span>湿度</span>
+                                    <span class="humidity">--</span>
+                                </div>
+                                <div class="weather-threesome">
+                                    <img class="weather-icon" src="img/wind-icon.png"></img>
+                                    <span class="wind-direction">风向</span>
+                                    <span class="wind-level">--</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="threesome">
-                    <span class="threesome-icon">PM 10</span>
-                    <span class="threesome-number pm10-number">--</span>
+                <div class="page">
+                    <div id="wrapper2" class="child-wrapper detail">
+                        <div class="scroller">
+                            <div class="detail-header">
+                                <span class="title">空气污染综合指数</span>
+                                <!-- <span class="update-time">数据更新时间：04-02 16:00</span> -->
+                            </div>
+                            <div class="detail-dashboard">
+                                <div class="china">
+                                    <p class="title1">环保部 - 中国标准</p>
+                                    <p class="title2">--</p>
+                                    <p class="number">--</p>
+                                </div>
+                                <div class="us">
+                                    <p class="title1">美使馆 - 美国标准</p>
+                                    <p class="title2">--</p>
+                                    <p class="number">--</p>
+                                </div>
+                            </div>
+                            <div class="detail-intro">
+                                <div class="pm25-title intro-title">
+                                    <span>PM2.5</span>
+                                    <span class="number">--</span>
+                                    <span>毫克/立方米&nbsp;&nbsp;</span>
+                                    <span class="cube level1"></span>
+                                </div>
+                                <div class="pm25-intro intro-intro">PM2.5 是直径小于等于 2.5 微米的可吸入颗粒物，不易被阻挡，被吸入人体后会直接进入支气管，干扰肺部的气体交换，引发包括哮喘、支气管炎和心血管病等方面的疾病。这些颗粒还可以通过支气管和肺泡进入血液，其中的有害气体、重金属等溶解在血液中，对人体健康的伤害巨大。</div>
+
+                                <div class="pm10-title intro-title">
+                                    <span>PM10</span>
+                                    <span class="number">--</span>
+                                    <span>毫克/立方米&nbsp;&nbsp;</span>
+                                    <span class="cube level2"></span>
+                                </div>
+                                <div class="pm10-intro intro-intro">PM10 是直径小于等于 10 微米的可吸入颗粒物，能够进入上呼吸道，但部分可通过痰液等排出体外，另外也会被鼻腔内部的绒毛阻挡。</div>
+
+                                <div class="no2-title intro-title">
+                                    <span>NO2</span>
+                                    <span class="number">--</span>
+                                    <span>毫克/立方米&nbsp;&nbsp;</span>
+                                    <span class="cube level3"></span>
+                                </div>
+                                <div class="no2-intro intro-intro">氮氧化物主要损害呼吸道。吸入气体初期仅有轻微的眼及上呼吸道刺激症状，如咽部不适、干咳等。二氧化氮还是酸雨和光化学烟雾的成因之一。</div>
+
+                                <div class="so2-title intro-title">
+                                    <span>SO2</span>
+                                    <span class="number">--</span>
+                                    <span>毫克/立方米&nbsp;&nbsp;</span>
+                                    <span class="cube level4"></span>
+                                </div>
+                                <div class="so2-intro intro-intro">高浓度的二氧化硫被人体吸入呼吸道后，因易溶于水，故大部分被阻滞在上呼吸道。在湿润的粘膜上生成具有腐蚀性的亚硫酸，一部分进而氧化为硫酸，使刺激作用增强。</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="threesome">
-                    <span class="threesome-icon">NO<span class="leg">2</span></span>
-                    <span class="threesome-number no2-number">--</span>
+                <div class="page">
+                    <div id="wrapper3" class="child-wrapper points">
+                        <div class="scroller">
+                            <div class="points-header">
+                                <span class="title">北京各个监测点数值</span>
+                            </div>
+                            <div class="point-suggest">
+                                <span>状况分析：</span>
+                                <p>西北方向刮来的沙尘暴正在缓慢入侵我市，请市民做好防护准备。</p>
+                            </div>
+                            <table class="points-table">
+                                <tr>
+                                    <th width="25%">监测点</th>
+                                    <th width="25%">污染指数</th>
+                                    <th width="25%">PM2.5 浓度</th>
+                                    <th width="25%">PM10 浓度</th>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="page">
+                    <div id="wrapper4" class="child-wrapper citys">
+                        <div class="scroller">
+                            <div class="citys-header">
+                                <span class="title">全国空气质量排行榜</span>
+                            </div>
+                            <div class="my-city">
+                                <span class="mycity-name">北京</span>
+                                <span class="mycity-rank">今日排名：<i>--</i></span>
+                                <span class="mycity-aqi">污染指数：<i>--</i></span>
+                            </div>
+                            <table class="citys-table">
+                                <tr>
+                                    <th width="25%">城市</th>
+                                    <th width="25%">PM2.5</th>
+                                    <th width="25%">PM10</th>
+                                    <th width="25%">污染指数</th>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="guess">
-            <p class="main-guess">--</p>
-            <p class="sub-guess">--</p>
-        </div>
-        <div id="aqiChart"></div>
-        <div class="weather-info">
-            <div class="weather-threesome">
-                <img class="weather-icon" src="img/day-icon.png"></img>
-                <span>气温</span>
-                <span class="day-temperature">--</span>
-            </div>
-            <div class="weather-threesome">
-                <img class="weather-icon" src="img/night-icon.png"></img>
-                <span>湿度</span>
-                <span class="humidity">--</span>
-            </div>
-            <div class="weather-threesome">
-                <img class="weather-icon" src="img/wind-icon.png"></img>
-                <span class="wind-direction">风向</span>
-                <span class="wind-level">--</span>
-            </div>
-        </div>
+
         <!-- <div class="footer">
             <ul>
                 <li>
@@ -81,19 +189,10 @@
 
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/jquery.min.js"></script>
+        <script type="text/javascript" src="js/iscroll.js"></script>
         <script type="text/javascript" src="js/av-0.3.1.min.js"></script>
         <script type="text/javascript" src="js/highcharts.js"></script>
         <script type="text/javascript" src="js/exporting.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript">
-            app.initialize();
-
-            jQuery(document).ready(function($) {
-                getAirData();
-                getGuessData();
-                getDayChart();
-                getWeatherData();
-            });
-        </script>
     </body>
 </html>

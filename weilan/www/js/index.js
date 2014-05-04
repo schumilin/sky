@@ -31,13 +31,60 @@ var app = {
     }
 };
 
-// AVOS init
-AV.initialize("2uu9d14470rpv39bb1178vsddmkdfgis13zfr2be0vyeuog8", "o33s1rvaukqedeforme8f10wegjv69rdw0wjoei2cuka4u9q");
+app.initialize();
+
+// iscroll init
+var childConfig = {
+    hScrollbar: false,
+    vScrollbar: false,
+    lockDirection: true
+};
+var iscrollInit = function () {
+
+    var wrapperWidth = 0;
+    var pageNumber = 4;
+    var startPage = 3;
+    
+    var parentConfig = {
+        snap: true,
+        momentum: false,
+        hScrollbar: false,
+        vScrollbar: false,
+        lockDirection: true
+    };
+
+    var myScroll = new iScroll('pageWrapper', parentConfig);
+
+    wrapperWidth = $('#pageWrapper').width();
+
+    $('#pageScroller').css('width', wrapperWidth * pageNumber);
+    $('.page').css('width', wrapperWidth);
+
+    myScroll.refresh();
+    myScroll.scrollToPage(startPage, 0, 0);
+
+    var s1 = new iScroll('wrapper1', childConfig);
+    var s2 = new iScroll('wrapper2', childConfig);
+};
+
+iscrollInit();
+
+// Change bg
+var changeBg = function () {
+    var number = Math.floor(Math.random() * 10);
+    if (number > 5) {
+        number = Math.floor(number/2);
+    }
+    $('body').css('background-image', 'url(img/bg' + number + '.png)');
+};
+changeBg();
+
+/* main logic start */
 
 // important for chart
 var pm25Array = [];
 
-var getDayChart = function () {
+var getAqiChart = function () {
     var father = AV.Object.extend("aqiChart");
     var son = new AV.Query(father);
     son.descending("createdAt");
@@ -47,8 +94,27 @@ var getDayChart = function () {
             var obj = results[0];
 
             pm25Array = obj.get('data');
-
             renderChart();
+
+            var usNumber = obj.get('data').pop();
+            var usQuality = '--';
+
+            if (usNumber <= 50) {
+                usQuality = '良好';
+            } else if (usNumber > 50 & usNumber <= 100) {
+                usQuality = '中等';
+            } else if (usNumber > 100 & usNumber <= 150) {
+                usQuality = '对敏感人群不健康';
+            } else if (usNumber > 150 & usNumber <= 200) {
+                usQuality = '不健康';
+            } else if (usNumber > 200 & usNumber <= 300) {
+                usQuality = '非常不健康';
+            } else if (usNumber > 300) {
+                usQuality = '有毒害';
+            }
+
+            $('.us').find('.number').html(usNumber);
+            $('.us').find('.title2').html(usQuality);
         },
         error: function(error) {
             // alert("avos error");
@@ -108,8 +174,9 @@ var getAirData = function () {
             var date = aqiObj.time_point.slice(0,10);
             var time = aqiObj.time_point.slice(11,16);
 
-            var shareUrl = '';
+            // var shareUrl = '';
 
+            // render summary
             $('.aqi-number').html(aqiObj.aqi);
             $('.pm10-number').html(aqiObj.pm10);
             $('.pm25-number').html(aqiObj.pm2_5);
@@ -118,8 +185,15 @@ var getAirData = function () {
             $('.time').html(time);
             $('.date').html(date);
 
-            shareUrl = 'http://service.weibo.com/share/share.php?appkey=1483181040&relateUid=1727978503&title=' + encodeURIComponent('今天北京空气污染指数' + aqiObj.aqi + '，快使用蔚蓝一起查看最新的空气污染指数吧~') + '&url=&pic=';
-            $('.share-btn').attr('href', shareUrl);
+            // render detail
+            $('.china').find('.number').html(aqiObj.aqi);
+            $('.china').find('.title2').html(aqiObj.quality);
+            $('.pm25-title').find('.number').html(aqiObj.pm2_5);
+            $('.pm10-title').find('.number').html(aqiObj.pm10);
+            $('.so2-title').find('.number').html(aqiObj.so2);
+            $('.no2-title').find('.number').html(aqiObj.no2);
+            // shareUrl = 'http://service.weibo.com/share/share.php?appkey=1483181040&relateUid=1727978503&title=' + encodeURIComponent('今天北京空气污染指数' + aqiObj.aqi + '，快使用蔚蓝一起查看最新的空气污染指数吧~') + '&url=&pic=';
+            // $('.share-btn').attr('href', shareUrl);
 
             // enter animation
             setTimeout(function () {
@@ -143,6 +217,72 @@ var getAirData = function () {
     });
 };
 
+var getPointsData = function () {
+    var father = AV.Object.extend("pointsData");
+    var son = new AV.Query(father);
+    son.descending("createdAt");
+    son.limit(1);
+    son.find({
+        success: function(results) {
+
+            var obj = results[0];
+            var aqiObj = obj.get('dataObj');
+            var html = '';
+            var cObj;
+            var render = function (name, one, two, three) {
+                return '<tr><td>' + name + '</td><td style="font-weight: bold;font-size: 14px;">' + one + '</td><td>' + two + '</td><td>' + three + '</td></tr>';
+            };
+
+            for (var i = 0; i < aqiObj.length; i++) {
+                cObj = aqiObj[i];
+                html += render(cObj.position_name, cObj.aqi, cObj.pm2_5, cObj.pm10);
+            }
+
+            $('.points-table').append(html);
+            var s3 = new iScroll('wrapper3', childConfig);
+        },
+        error: function(error) {
+            // alert("avos error");
+        }
+    });
+};
+
+var getCitysData = function () {
+    var father = AV.Object.extend("citysData");
+    var son = new AV.Query(father);
+    son.descending("createdAt");
+    son.limit(1);
+    son.find({
+        success: function(results) {
+            var obj = results[0];
+            var aqiObj = obj.get('dataObj');
+            var html = '';
+            var cObj;
+            var render = function (name, one, two, three) {
+                return '<tr><td>' + name + '</td><td>' + one + '</td><td>' + two + '</td><td style="font-weight: bold;font-size: 14px;">' + three + '</td></tr>';
+            };
+            
+            for (var i = 0; i < 20; i++) {
+                cObj = aqiObj[i];
+                html += render(cObj.area, cObj.pm2_5, cObj.pm10, cObj.aqi);
+            }
+
+            $('.citys-table').append(html);
+            var s4 = new iScroll('wrapper4', childConfig);
+
+            for (var j = 0; j < aqiObj.length; j++) {
+                if (aqiObj[j].area == '北京') {
+                    $('.mycity-rank').find('i').html(j + 1);
+                    $('.mycity-aqi').find('i').html(aqiObj[j].aqi);
+                }
+            };
+        },
+        error: function(error) {
+            // alert("avos error");
+        }
+    });
+};
+
 // highchart config
 var renderChart = function () {
 
@@ -156,7 +296,7 @@ var renderChart = function () {
     var month = calendar.getMonth();
     var date = calendar.getDate();
     var hour = calendar.getHours();
-    var bigTitle = '过去 24 小时空气污染指数趋势图';
+    var bigTitle = '过去 24 小时 PM2.5 污染指数趋势图 (美使馆)';
     var subTitle = null;
 
     $('#aqiChart').highcharts({
@@ -236,7 +376,7 @@ var renderChart = function () {
             borderColor: 'rgba(0,0,0,0.2)',
             shadow: false,
             pointFormat: '{point.y}',
-            valuePrefix: 'AQI:',
+            valuePrefix: '指数:',
             xDateFormat: '%H:00',
             style: {
                 color: grey3
@@ -248,3 +388,13 @@ var renderChart = function () {
         }]
     });
 };
+
+// AVOS init
+AV.initialize("2uu9d14470rpv39bb1178vsddmkdfgis13zfr2be0vyeuog8", "o33s1rvaukqedeforme8f10wegjv69rdw0wjoei2cuka4u9q");
+
+getAirData();
+getGuessData();
+getAqiChart();
+getWeatherData();
+getPointsData();
+getCitysData();

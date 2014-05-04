@@ -78,15 +78,55 @@ var fuckPm25in = function () {
 
         son.save(null, {
             success: function(data) {
-                $('.car').append('<br>pm25.in 爬取成功,并已经存入数据库.');
+                $('.car').append('<br>nowData 爬取成功,并已经存入数据库.');
             },
             error: function(data, error) {
-                $('.car').append('<br>pm25.in 存入数据库失败.');
+                $('.car').append('<br>nowData 存入数据库失败.');
+            }
+        });
+
+        var father2 = AV.Object.extend('pointsData');
+        var son2 = new father2();
+        son2.set('dataObj', data);
+
+        son2.save(null, {
+            success: function(data) {
+                $('.car').append('<br>points 爬取成功,并已经存入数据库.');
+            },
+            error: function(data, error) {
+                $('.car').append('<br>points 存入数据库失败.');
             }
         });
 
     }).fail(function() {
-        $('.car').append('<br>pm25.in 爬取失败.');
+        $('.car').append('<br>nowData & points 爬取失败.');
+    });
+};
+
+var fuckCitys = function () {
+    $.ajax({
+        dataType: "jsonp",
+        url: 'http://www.pm25.in/api/querys/aqi_ranking.json',
+        data: {
+            token: 'e7HnxFo18ZxJS5q6qHJN'
+        }
+    }).done(function(data) {
+
+        var father = AV.Object.extend('citysData');
+        var son = new father();
+        son.set('dataObj', data);
+
+        son.save(null, {
+            success: function(data) {
+                $('.car').append('<br>citys 爬取成功,并已经存入数据库.');
+            },
+            error: function(data, error) {
+                $('.car').append('<br>citys 存入数据库失败.');
+            }
+        });
+
+    }).fail(function() {
+        $('.car').append('<br>citys 爬取失败.');
     });
 };
 
@@ -124,7 +164,7 @@ var crawl = function () {
 
     document.body.appendChild(iframe);
     iframe.setAttribute('id', 'alonso');
-    iframe.src = 'http://www.young-0.com/airquality/index.php?cn=1';
+    iframe.src = 'http://www.young-0.com/airquality/index.php';
 
     iframe.onload = function(){
         fuckY0();
@@ -132,6 +172,7 @@ var crawl = function () {
 
     fuckPm25in();
     fuckWeather();
+    fuckCitys();
 };
 
 var initCrawlerTimer = function () {
