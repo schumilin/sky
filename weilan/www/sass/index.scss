@@ -27,6 +27,9 @@ a {
     color: $grey1;
     text-decoration: none;
 }
+b {
+    font-weight: bold;
+}
 
 // iscroll
 .page {
@@ -136,12 +139,15 @@ a {
             background: $grey3;
             display: inline-block;
             width: 60px;
-            .leg {
-                font-size: 10px;
-            }
+            font-size: 13px;
+            // .leg {
+            //     font-size: 10px;
+            // }
         }
         .threesome-number {
             display: block;
+            font-size: 13px;
+            font-family: Roboto, sans-serif;
         }
     }
 }
@@ -178,7 +184,7 @@ a {
     }
 }
 .weather-info {
-    font-family: Arial, sans-serif;
+    font-family: Roboto, sans-serif;
     font-size: 13px;
     margin: 0 10px;
     padding-bottom: 40px;

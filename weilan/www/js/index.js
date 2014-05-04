@@ -177,9 +177,9 @@ var getAirData = function () {
 
             // render summary
             $('.aqi-number').html(aqiObj.aqi);
-            $('.pm10-number').html(aqiObj.pm10);
-            $('.pm25-number').html(aqiObj.pm2_5);
-            $('.no2-number').html(aqiObj.no2);
+            // $('.pm10-number').html(aqiObj.pm10);
+            // $('.pm25-number').html(aqiObj.pm2_5);
+            // $('.no2-number').html(aqiObj.no2);
             $('.level').html(aqiObj.quality);
             $('.time').html(time);
             $('.date').html(date);
