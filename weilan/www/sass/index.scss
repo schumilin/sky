@@ -128,7 +128,7 @@ b {
     .threesome {
         text-align: center;
         float: left;
-        width: 33.3%;
+        width: 33.33%;
         @include transition(all .4s);
         @include transform(translate3d(0,-42px,0));
 
@@ -140,6 +140,8 @@ b {
         }
         &:last-child {
             text-align: right;
+            position: relative;
+            left: 1px;
         }
         .threesome-icon {
             background: $grey3;
@@ -147,6 +149,7 @@ b {
             width: 85px;
             font-size: 13px;
             text-align: center;
+            vertical-align: top;
         }
         .threesome-number {
             display: inline-block;
@@ -278,11 +281,12 @@ b {
     }
     .detail-intro {
         margin: 5px 10px;
-        border-left: 1px solid $grey3;
+        border-top: 1px solid $grey3;
         overflow: hidden;
 
         .intro-title {
             float: left;
+            clear: both;
             position: relative;
             background-color: $grey3;
             padding: 0 0 0 10px;
@@ -299,6 +303,7 @@ b {
                 height: 21px;
                 width: 21px;
                 opacity: 0.8;
+                display: none;
 
                 &.level1 {
                     background-color: #3baa24;

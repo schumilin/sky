@@ -43,7 +43,7 @@ var iscrollInit = function () {
 
     var wrapperWidth = 0;
     var pageNumber = 4;
-    var startPage = 0;
+    var startPage = 1;
     
     var parentConfig = {
         snap: true,
