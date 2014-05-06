@@ -132,18 +132,22 @@ var fuckCitys = function () {
 
 var fuckY0 = function () {
     var array = [];
-    var domArray = $('#alonso').contents().find('.gr2');
+    var table = $('#alonso').contents().find('table');
+    var levelDomArray = table.find('td:nth-child(3)');
+    var concentration = table.find('tr:last-child').find('td:last-child').text();
 
-    if (domArray.length !== 0) {
-            domArray.each(function (index, el) {
-            array.unshift(parseInt($(el).text(), 10));
+    if (levelDomArray.length !== 0) {
+            levelDomArray.each(function (index, el) {
+            // array.unshift(parseInt($(el).text(), 10));
+            array.push(parseInt($(el).text(), 10));
         });
 
         var father = AV.Object.extend('aqiChart');
         var son = new father();
 
         son.set('data', array);
-
+        son.set('concentration', parseInt(concentration, 10));
+        
         son.save(null, {
             success: function(data) {
                 $('.car').append('<br>young-0 爬取成功,并已经存入数据库.');
@@ -164,7 +168,8 @@ var crawl = function () {
 
     document.body.appendChild(iframe);
     iframe.setAttribute('id', 'alonso');
-    iframe.src = 'http://www.young-0.com/airquality/index.php';
+    // iframe.src = 'http://www.young-0.com/airquality/index.php';
+    iframe.src = 'http://www.young-0.com/airquality/index.php?action=2';
 
     iframe.onload = function(){
         fuckY0();
@@ -192,11 +197,17 @@ $(document).ready(function() {
     $('.save-guess').on('click', function () {
         var first = $('.first').val();
         var second = $('.second').val();
+        var pm25Suggest = $('.pm25-suggest').val() || '暂无分析及建议';
+        var pm10Suggest = $('.pm10-suggest').val() || '暂无分析及建议';
+        var pointsSuggest = $('.points-suggest').val() || '暂无分析及建议';
 
         var father = AV.Object.extend('guess');
         var son = new father();
         son.set('first', first);
         son.set('second', second);
+        son.set('pm25Suggest', pm25Suggest);
+        son.set('pm10Suggest', pm10Suggest);
+        son.set('pointsSuggest', pointsSuggest);
         son.save(null, {
             success: function(data) {
             $('.car').append('<br>预测数据保存成功.');
