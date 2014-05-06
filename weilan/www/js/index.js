@@ -96,7 +96,7 @@ var getAqiChart = function () {
             renderDayChart();
 
             var concentration = obj.get('concentration');
-            $('.pm25-title').find('.us-number').text(concentration);
+            $('.us-pm25-detail').text(concentration);
 
             var usNumber = obj.get('data').pop();
             var usQuality = '--';
@@ -116,7 +116,7 @@ var getAqiChart = function () {
             }
 
             $('.us').find('.number').html(usNumber);
-            $('.us').find('.title2').html(usQuality);
+            $('.us-level').html(usQuality);
         },
         error: function(error) {
             // alert("avos error");
@@ -189,10 +189,10 @@ var getAirData = function () {
             // render detail
             $('.china').find('.number').html(aqiObj.aqi);
             $('.china').find('.title2').html(aqiObj.quality);
-            $('.pm25-title').find('.number').html(aqiObj.pm2_5);
-            $('.pm10-title').find('.number').html(aqiObj.pm10);
-            $('.so2-title').find('.number').html(aqiObj.so2);
-            $('.no2-title').find('.number').html(aqiObj.no2);
+            $('.pm25-detail').html(aqiObj.pm2_5);
+            $('.pm10-detail').html(aqiObj.pm10);
+            $('.so2-detail').html(aqiObj.so2);
+            $('.no2-detail').html(aqiObj.no2);
 
             // render threesome
             var kouzhao = '';
