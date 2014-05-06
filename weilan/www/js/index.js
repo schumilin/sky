@@ -95,6 +95,9 @@ var getAqiChart = function () {
             pm25Array = obj.get('data');
             renderDayChart();
 
+            var concentration = obj.get('concentration');
+            $('.pm25-title').find('.us-number').text(concentration);
+
             var usNumber = obj.get('data').pop();
             var usQuality = '--';
 
@@ -172,14 +175,12 @@ var getAirData = function () {
             
             var date = aqiObj.time_point.slice(0,10);
             var time = aqiObj.time_point.slice(11,16);
+            var aqi = aqiObj.aqi;
 
             // var shareUrl = '';
 
             // render summary
-            $('.aqi-number').html(aqiObj.aqi);
-            // $('.pm10-number').html(aqiObj.pm10);
-            // $('.pm25-number').html(aqiObj.pm2_5);
-            // $('.no2-number').html(aqiObj.no2);
+            $('.aqi-number').html(aqi);
             $('.level').html(aqiObj.quality);
             $('.time').html(time);
             $('.date').html(date);
@@ -192,6 +193,49 @@ var getAirData = function () {
             $('.pm10-title').find('.number').html(aqiObj.pm10);
             $('.so2-title').find('.number').html(aqiObj.so2);
             $('.no2-title').find('.number').html(aqiObj.no2);
+
+            // render threesome
+            var kouzhao = '';
+            var kaichuang = '';
+            var jinghuaqi = '';
+            var description = '';
+
+            if (aqi <= 50) {
+                kouzhao = '不需要';
+                kaichuang = '可以';
+                jinghuaqi = '不需要';
+                description = '各类人群可自由活动';
+            } else if (aqi > 50 & aqi <= 100) {
+                kouzhao = '不需要';
+                kaichuang = '可以';
+                jinghuaqi = '不需要';
+                description = '可以正常在户外活动，极少数敏感人群应减少外出。';
+            } else if (aqi > 100 & aqi <= 150) {
+                kouzhao = '建议佩戴';
+                kaichuang = '不易过久';
+                jinghuaqi = '建议打开';
+                description = '敏感人群症状易加剧，应避免高强度户外锻炼，外出时做好防护措施。儿童，老年人及心脏、呼吸系统疾病患者人群应减少长时间或高强度户外锻炼。';
+            } else if (aqi > 150 & aqi < 200) {
+                kouzhao = '建议佩戴';
+                kaichuang = '不易过久';
+                jinghuaqi = '建议打开';
+                description = '应减少户外活动，外出时佩戴口罩，敏感人群应尽量避免外出。儿童，老年人及心脏、呼吸系统疾病患者人群应减少长时间或高强度户外锻炼。一般人群适量减少户外运动。';
+            } else if (aqi >= 200 & aqi < 300) {
+                kouzhao = '必须佩戴';
+                kaichuang = '1小时/天';
+                jinghuaqi = '必须打开';
+                description = '应减少户外活动，外出时佩戴口罩，敏感人群应留在室内。老年人及心脏、呼吸系统疾病患者人群应留在室内，停止户外运动，一般人群减少户外运动。';
+            } else if (aqi >= 300) {
+                kouzhao = '必须佩戴';
+                kaichuang = '30分钟/天';
+                jinghuaqi = '高功率运行';
+                description = '应避免外出，关好门窗，老年人病人应留在室内，停止体力消耗，一般人群避免户外活动。';
+            }
+
+            $('.kouzhao').html(kouzhao);
+            $('.kaichuang').html(kaichuang);
+            $('.jinghuaqi').html(jinghuaqi);
+            $('.intro-intro').html(description);
             // shareUrl = 'http://service.weibo.com/share/share.php?appkey=1483181040&relateUid=1727978503&title=' + encodeURIComponent('今天北京空气污染指数' + aqiObj.aqi + '，快使用蔚蓝一起查看最新的空气污染指数吧~') + '&url=&pic=';
             // $('.share-btn').attr('href', shareUrl);
 

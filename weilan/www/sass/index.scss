@@ -135,17 +135,23 @@ b {
         &.complete {
             @include transform(translate3d(0,0,0));
         }
+        &:first-child {
+            text-align: left;
+        }
+        &:last-child {
+            text-align: right;
+        }
         .threesome-icon {
             background: $grey3;
             display: inline-block;
-            width: 60px;
+            width: 85px;
             font-size: 13px;
-            // .leg {
-            //     font-size: 10px;
-            // }
+            text-align: center;
         }
         .threesome-number {
-            display: block;
+            display: inline-block;
+            width: 85px;
+            text-align: center;
             font-size: 13px;
             font-family: Roboto, sans-serif;
         }
@@ -273,12 +279,14 @@ b {
     .detail-intro {
         margin: 5px 10px;
         border-left: 1px solid $grey3;
+        overflow: hidden;
 
         .intro-title {
             float: left;
             position: relative;
             background-color: $grey3;
             padding: 0 0 0 10px;
+            margin-top: 5px;
 
             .number {
                 margin-left: 10px;
