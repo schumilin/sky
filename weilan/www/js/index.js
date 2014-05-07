@@ -280,19 +280,19 @@ var getPointsData = function () {
             var aqiObj = obj.get('dataObj');
             var cObj;
             var positionArray = [];
-            var pm25Array = [];
-            var pm10Array = [];
+            // var pm25Array = [];
+            // var pm10Array = [];
             var aqiArray = [];
 
             for (var i = 0; i < aqiObj.length; i++) {
                 cObj = aqiObj[i];
                 positionArray.push(cObj.position_name);
-                pm25Array.push(cObj.pm2_5);
-                pm10Array.push(cObj.pm10);
+                // pm25Array.push(cObj.pm2_5);
+                // pm10Array.push(cObj.pm10);
                 aqiArray.push(cObj.aqi);
             }
 
-            renderPointsChart(positionArray, pm25Array, pm10Array, aqiArray);
+            renderVerticalChart('#pointsChart', positionArray, aqiArray);
 
             var s3 = new iScroll('wrapper3', childConfig);
         },
@@ -313,20 +313,27 @@ var getCitysData = function () {
             var aqiObj = obj.get('dataObj');
             var html = '';
             var cObj;
-            var render = function (name, one, two, three) {
-                return '<tr><td>' + name + '</td><td>' + one + '</td><td>' + two + '</td><td style="font-weight: bold;font-size: 14px;">' + three + '</td></tr>';
-            };
-            
-            for (var i = 0; i < 20; i++) {
-                cObj = aqiObj[i];
-                html += render(cObj.area, cObj.pm2_5, cObj.pm10, cObj.aqi);
-            }
-            html = html.replace(/>0/g, '>--');
+            var topCity = [];
+            var topCityAqi = [];
+            var l = aqiObj.length;
 
-            $('.citys-table').append(html);
+            for (var i = 0; i < 10; i++) {
+                cObj = aqiObj[i];
+                topCity.push(cObj.area);
+                topCityAqi.push(cObj.aqi);
+            }
+
+            for (var k = (l - 10); k < l; k++) {
+                cObj = aqiObj[k];
+                topCity.push(cObj.area);
+                topCityAqi.push(cObj.aqi);
+            }
+
+            renderVerticalChart('#citysChart', topCity, topCityAqi);
+
             var s4 = new iScroll('wrapper4', childConfig);
 
-            for (var j = 0; j < aqiObj.length; j++) {
+            for (var j = 0; j < l; j++) {
                 if (aqiObj[j].area == '北京') {
                     $('.mycity-rank').find('b').html(j + 1);
                     $('.mycity-aqi').find('b').html(aqiObj[j].aqi);
@@ -340,11 +347,11 @@ var getCitysData = function () {
 };
 
 // highchart config
-var grey1 = 'rgba(255,255,255,0.20)';
+var grey1 = 'rgba(255,255,255,0.2)';
 var grey2 = 'rgba(255,255,255,0.85)';
 var grey3 = 'rgba(255,255,255,0.95)';
 var grey4 = 'rgba(255,255,255,0.65)';
-var grey5 = 'rgba(255,255,255,0.40)';
+var grey5 = 'rgba(255,255,255,0.4)';
 var calendar = new Date();
 var year = calendar.getYear();
 var month = calendar.getMonth();
@@ -544,12 +551,12 @@ var renderMonthChart = function () {
     var s2 = new iScroll('wrapper2', childConfig);
 };
 
-var renderPointsChart = function (positionArray, pm25Array, pm10Array, aqiArray) {
+var renderVerticalChart = function (container, positionArray, aqiArray) {
 
     var bigTitle = null;
     var subTitle = null;
 
-    $('#pointsChart').highcharts({
+    $(container).highcharts({
         chart: {
             type: 'bar',
             backgroundColor: 'transparent'
@@ -561,7 +568,7 @@ var renderPointsChart = function (positionArray, pm25Array, pm10Array, aqiArray)
             enabled: false
         },
         colors: [
-           '#FE4260','#FEC64B','#39D59B'
+           grey4
         ],
         title: {
             text: bigTitle
@@ -581,20 +588,18 @@ var renderPointsChart = function (positionArray, pm25Array, pm10Array, aqiArray)
         },
         yAxis: {
             labels: {
-                overflow: 'justify',
                 style: {
                     color: grey2
                 }
             },
             gridLineColor: grey1,
             min: 0,
-            max: 500,
-            tickInterval: 100,
             title: {
                 text: null
             }
         },
         legend: {
+            enabled: false,
             margin: 5,
             itemStyle: {
                 color: grey3
@@ -602,8 +607,20 @@ var renderPointsChart = function (positionArray, pm25Array, pm10Array, aqiArray)
         },
         plotOptions: {
             series: {
-                borderWidth: 1,
-                borderColor: grey4
+                borderWidth: 0
+            },
+            bar: {
+                dataLabels: {
+                    enabled: true,
+                    // align: 'right',
+                    crop: false,
+                    overflow: 'none',
+                    color: grey3,
+                    verticalAlign: 'middle',
+                    style: {
+                        fontSize: '12px'
+                    }
+                }
             }
         },
         tooltip: {
@@ -615,17 +632,10 @@ var renderPointsChart = function (positionArray, pm25Array, pm10Array, aqiArray)
             }
         },
         series: [{
-                name: 'PM25',
-                data: pm25Array
-            }, {
-                name: 'PM10',
-                data: pm10Array
-            }, {
                 name: 'AQI',
                 data: aqiArray
             }]
     });
-
 };
 
 // AVOS init
