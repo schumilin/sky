@@ -35,6 +35,11 @@ var app = {
 
 app.initialize();
 
+// hack for ios status bar
+if (navigator.userAgent.match(/(iPad|iPhone|iPod)/g)) {
+    $('body').css('padding', '10px 0 0');
+}
+
 // iscroll init
 var childConfig = {
     hScrollbar: false,
@@ -45,7 +50,7 @@ var iscrollInit = function () {
 
     var wrapperWidth = 0;
     var pageNumber = 4;
-    var startPage = 0;
+    var startPage = 2;
     
     var parentConfig = {
         snap: true,
@@ -273,19 +278,22 @@ var getPointsData = function () {
 
             var obj = results[0];
             var aqiObj = obj.get('dataObj');
-            var html = '';
             var cObj;
-            var render = function (name, one, two, three) {
-                return '<tr><td>' + name + '</td><td>' + one + '</td><td>' + two + '</td><td style="font-weight: bold;font-size: 14px;">' + three + '</td></tr>';
-            };
+            var positionArray = [];
+            var pm25Array = [];
+            var pm10Array = [];
+            var aqiArray = [];
 
             for (var i = 0; i < aqiObj.length; i++) {
                 cObj = aqiObj[i];
-                html += render(cObj.position_name, cObj.pm2_5, cObj.pm10, cObj.aqi);
+                positionArray.push(cObj.position_name);
+                pm25Array.push(cObj.pm2_5);
+                pm10Array.push(cObj.pm10);
+                aqiArray.push(cObj.aqi);
             }
-            html = html.replace(/>0/g, '>--');
 
-            $('.points-table').append(html);
+            renderPointsChart(positionArray, pm25Array, pm10Array, aqiArray);
+
             var s3 = new iScroll('wrapper3', childConfig);
         },
         error: function(error) {
@@ -332,18 +340,19 @@ var getCitysData = function () {
 };
 
 // highchart config
+var grey1 = 'rgba(255,255,255,0.20)';
+var grey2 = 'rgba(255,255,255,0.85)';
+var grey3 = 'rgba(255,255,255,0.95)';
+var grey4 = 'rgba(255,255,255,0.65)';
+var grey5 = 'rgba(255,255,255,0.40)';
+var calendar = new Date();
+var year = calendar.getYear();
+var month = calendar.getMonth();
+var date = calendar.getDate();
+var hour = calendar.getHours();
+
 var renderDayChart = function () {
 
-    var grey1 = 'rgba(255,255,255,0.20)';
-    var grey2 = 'rgba(255,255,255,0.85)';
-    var grey3 = 'rgba(255,255,255,0.95)';
-    var grey4 = 'rgba(255,255,255,0.65)';
-    var grey5 = 'rgba(255,255,255,0.40)';
-    var calendar = new Date();
-    var year = calendar.getYear();
-    var month = calendar.getMonth();
-    var date = calendar.getDate();
-    var hour = calendar.getHours();
     var bigTitle = '过去 24 小时 PM2.5 污染指数趋势图 (美使馆)';
     var subTitle = null;
 
@@ -439,16 +448,7 @@ var renderDayChart = function () {
 
 var renderMonthChart = function () {
 
-    var grey1 = 'rgba(255,255,255,0.20)';
-    var grey2 = 'rgba(255,255,255,0.85)';
-    var grey3 = 'rgba(255,255,255,0.95)';
-    var grey4 = 'rgba(255,255,255,0.65)';
-    var grey5 = 'rgba(255,255,255,0.40)';
-    var calendar = new Date();
-    var year = calendar.getYear();
     var month = calendar.getMonth() - 1;
-    var date = calendar.getDate();
-    var hour = calendar.getHours();
     var bigTitle = '过去 30 天 PM2.5 污染指数趋势图 (美使馆)';
     var subTitle = null;
 
@@ -542,6 +542,90 @@ var renderMonthChart = function () {
     });
 
     var s2 = new iScroll('wrapper2', childConfig);
+};
+
+var renderPointsChart = function (positionArray, pm25Array, pm10Array, aqiArray) {
+
+    var bigTitle = null;
+    var subTitle = null;
+
+    $('#pointsChart').highcharts({
+        chart: {
+            type: 'bar',
+            backgroundColor: 'transparent'
+        },
+        credits: {
+            enabled: false
+        },
+        exporting: {
+            enabled: false
+        },
+        colors: [
+           '#FE4260','#FEC64B','#39D59B'
+        ],
+        title: {
+            text: bigTitle
+        },
+        subtitle: {
+            text: subTitle
+        },
+        xAxis: {
+            categories: positionArray,
+            lineColor: grey5,
+            tickColor: grey5,
+            labels: {
+                style: {
+                    color: grey2
+                }
+            }
+        },
+        yAxis: {
+            labels: {
+                overflow: 'justify',
+                style: {
+                    color: grey2
+                }
+            },
+            gridLineColor: grey1,
+            min: 0,
+            max: 500,
+            tickInterval: 100,
+            title: {
+                text: null
+            }
+        },
+        legend: {
+            margin: 5,
+            itemStyle: {
+                color: grey3
+            }
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 1,
+                borderColor: grey4
+            }
+        },
+        tooltip: {
+            backgroundColor: 'rgba(0,0,0,0.2)',
+            borderColor: 'rgba(0,0,0,0.2)',
+            shadow: false,
+            style: {
+                color: grey3
+            }
+        },
+        series: [{
+                name: 'PM25',
+                data: pm25Array
+            }, {
+                name: 'PM10',
+                data: pm10Array
+            }, {
+                name: 'AQI',
+                data: aqiArray
+            }]
+    });
+
 };
 
 // AVOS init
