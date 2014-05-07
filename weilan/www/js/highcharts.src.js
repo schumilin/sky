@@ -6297,7 +6297,8 @@ Axis.prototype = {
 			second: '%H:%M:%S',
 			minute: '%H:%M',
 			hour: '%H:%M',
-			day: '%b%e日',
+			// day: '%b%e日',
+			day: '24:00',
 			week: '%b%e日',
 			month: '%y \'%b',
 			year: '%Y'

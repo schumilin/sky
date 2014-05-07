@@ -281,6 +281,7 @@ var getPointsData = function () {
                 cObj = aqiObj[i];
                 html += render(cObj.position_name, cObj.pm2_5, cObj.pm10, cObj.aqi);
             }
+            html = html.replace(/>0/g, '>--');
 
             $('.points-table').append(html);
             var s3 = new iScroll('wrapper3', childConfig);
@@ -310,6 +311,7 @@ var getCitysData = function () {
                 cObj = aqiObj[i];
                 html += render(cObj.area, cObj.pm2_5, cObj.pm10, cObj.aqi);
             }
+            html = html.replace(/>0/g, '>--');
 
             $('.citys-table').append(html);
             var s4 = new iScroll('wrapper4', childConfig);
