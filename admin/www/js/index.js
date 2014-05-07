@@ -197,16 +197,12 @@ $(document).ready(function() {
     $('.save-guess').on('click', function () {
         var first = $('.first').val();
         var second = $('.second').val();
-        var pm25Suggest = $('.pm25-suggest').val() || '暂无分析及建议';
-        var pm10Suggest = $('.pm10-suggest').val() || '暂无分析及建议';
         var pointsSuggest = $('.points-suggest').val() || '暂无分析及建议';
 
         var father = AV.Object.extend('guess');
         var son = new father();
         son.set('first', first);
         son.set('second', second);
-        son.set('pm25Suggest', pm25Suggest);
-        son.set('pm10Suggest', pm10Suggest);
         son.set('pointsSuggest', pointsSuggest);
         son.save(null, {
             success: function(data) {
