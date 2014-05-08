@@ -135,10 +135,11 @@ var fuckY0 = function () {
     var table = $('#alonso').contents().find('table');
     var levelDomArray = table.find('td:nth-child(3)');
     var concentration = table.find('tr:last-child').find('td:last-child').text();
+    var bArray = $('#alonso').contents().find('b');
 
     if (levelDomArray.length !== 0) {
-            levelDomArray.each(function (index, el) {
-            // array.unshift(parseInt($(el).text(), 10));
+
+        levelDomArray.each(function (index, el) {
             array.push(parseInt($(el).text(), 10));
         });
 
@@ -156,6 +157,42 @@ var fuckY0 = function () {
                 $('.car').append('<br>young-0 存入数据库失败.');
             }
         });
+        // crawl daily average number 
+        var time = bArray[1].textContent;
+        
+        if (time.match(/00:00/g)) {
+
+            var average = parseInt(bArray[4].textContent, 10);
+
+            var father2 = AV.Object.extend('averageChart');
+            var son2 = new AV.Query(father2);
+
+            son2.descending("createdAt");
+            son2.limit(1);
+            son2.find({
+                success: function(results) {
+                    var obj = results[0];
+                    var array = obj.get('data');
+                    array.push(average);
+                    array.shift();
+                    average = array;
+
+                    var son3 = new father2();
+                    son3.set('data', average);
+                    son3.save(null, {
+                        success: function(data) {
+                            $('.car').append('<br>Average 爬取成功,并已经存入数据库.');
+                        },
+                        error: function(data, error) {
+                            $('.car').append('<br>Average 存入数据库失败.');
+                        }
+                    });
+                },
+                error: function(error) {
+                    $('.car').append('<br>Average 读取失败.');
+                }
+            });
+        }
     }
 };
 
