@@ -86,10 +86,6 @@ var changeBg = function () {
 changeBg();
 
 /* main logic start */
-
-// important for chart
-var pm25Array = [];
-
 var getAqiChart = function () {
     var father = AV.Object.extend("aqiChart");
     var son = new AV.Query(father);
@@ -100,7 +96,7 @@ var getAqiChart = function () {
             var obj = results[0];
 
             pm25Array = obj.get('data');
-            renderDayChart();
+            renderDayChart(pm25Array);
 
             var concentration = obj.get('concentration');
             $('.us-pm25-detail').text(concentration);
@@ -124,6 +120,24 @@ var getAqiChart = function () {
 
             $('.us').find('.number').html(usNumber);
             $('.us-level').html(usQuality);
+        },
+        error: function(error) {
+            // alert("avos error");
+        }
+    });
+};
+
+var getAverageChart = function () {
+    var father = AV.Object.extend("averageChart");
+    var son = new AV.Query(father);
+    son.descending("createdAt");
+    son.limit(1);
+    son.find({
+        success: function(results) {
+            var obj = results[0];
+
+            pm25Array = obj.get('data');
+            renderMonthChart(pm25Array);
         },
         error: function(error) {
             // alert("avos error");
@@ -358,7 +372,7 @@ var month = calendar.getMonth();
 var date = calendar.getDate();
 var hour = calendar.getHours();
 
-var renderDayChart = function () {
+var renderDayChart = function (pm25Array) {
 
     var bigTitle = '过去 24 小时 PM2.5 污染指数趋势图 (美使馆)';
     var subTitle = null;
@@ -454,9 +468,13 @@ var renderDayChart = function () {
     });
 };
 
-var renderMonthChart = function () {
+var renderMonthChart = function (pm25Array) {
 
-    var month = calendar.getMonth() - 1;
+    // now time cut 31 days
+    var newdate = new Date(calendar.getTime() - (31 * 1000 * 3600 * 24));
+    var year = newdate.getYear();
+    var month = newdate.getMonth();
+    var date = newdate.getDate();
     var bigTitle = '过去 30 天 PM2.5 污染指数趋势图 (美使馆)';
     var subTitle = null;
 
@@ -546,7 +564,7 @@ var renderMonthChart = function () {
         },
         series: [{
             name: 'pm2.5',
-            data: [70,150,220,200,190,180,190,200,280,180,150,180,200,150,160,140,160,180,170,190,110,150,160,180,190,200,100,150,100,120]
+            data: pm25Array
         }]
     });
 
@@ -650,4 +668,4 @@ getAqiChart();
 getWeatherData();
 getPointsData();
 getCitysData();
-renderMonthChart();
+getAverageChart();
