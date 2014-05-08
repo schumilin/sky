@@ -35,6 +35,16 @@ var app = {
 
 app.initialize();
 
+// Change bg
+var changeBg = function () {
+    var number = Math.floor(Math.random() * 10);
+    if (number > 5) {
+        number = Math.floor(number/2);
+    }
+    $('body').css('background-image', 'url(img/bg' + number + '.png)');
+};
+changeBg();
+
 // hack for ios status bar
 if (navigator.userAgent.match(/(iPad|iPhone|iPod)/g)) {
     $('body').css('padding', '10px 0 0');
@@ -74,16 +84,6 @@ var iscrollInit = function () {
 };
 
 iscrollInit();
-
-// Change bg
-var changeBg = function () {
-    var number = Math.floor(Math.random() * 10);
-    if (number > 5) {
-        number = Math.floor(number/2);
-    }
-    $('body').css('background-image', 'url(img/bg' + number + '.png)');
-};
-changeBg();
 
 /* main logic start */
 var getAqiChart = function () {
@@ -189,7 +189,12 @@ var getAirData = function () {
     son.limit(1);
     son.find({
         success: function(results) {
-            $('.loading-wrap').hide();
+
+            // 入场动画
+            $('.loading-wrap').addClass('complete');
+            setTimeout(function () {
+                $('.loading-wrap').remove();
+            },500);
 
             var obj = results[0];
             var aqiObj = obj.get('dataObj');
