@@ -425,6 +425,7 @@ var renderDayChart = function () {
         },
         plotOptions: {
             series: {
+                animation: false,
                 connectNulls: true,
                 fillColor: grey1,
                 lineWidth: 2,
@@ -521,6 +522,7 @@ var renderMonthChart = function () {
         },
         plotOptions: {
             series: {
+                animation: false,
                 connectNulls: true,
                 fillColor: grey1,
                 lineWidth: 2,
@@ -607,6 +609,7 @@ var renderVerticalChart = function (container, positionArray, aqiArray) {
         },
         plotOptions: {
             series: {
+                animation: false,
                 borderWidth: 0
             },
             bar: {
