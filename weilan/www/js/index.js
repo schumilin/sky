@@ -140,7 +140,7 @@ var getAverageChart = function () {
             for (var i = 0; i < results.length; i++) {
                 pm25Array.unshift(results[i].get('data'));
             };
-            
+
             renderMonthChart(pm25Array);
         },
         error: function(error) {
@@ -233,32 +233,32 @@ var getAirData = function () {
             if (aqi <= 50) {
                 kouzhao = '不需要';
                 kaichuang = '可以';
-                jinghuaqi = '不需要';
+                jinghuaqi = '尽情活动';
                 description = '各类人群可自由活动';
-            } else if (aqi > 50 & aqi <= 100) {
+            } else if (aqi > 50 & aqi <= 85) {
                 kouzhao = '不需要';
                 kaichuang = '可以';
-                jinghuaqi = '不需要';
+                jinghuaqi = '可以';
                 description = '可以正常在户外活动，极少数敏感人群应减少外出。';
-            } else if (aqi > 100 & aqi <= 150) {
+            } else if (aqi > 85 & aqi <= 150) {
                 kouzhao = '建议佩戴';
                 kaichuang = '不易过久';
-                jinghuaqi = '建议打开';
+                jinghuaqi = '不建议';
                 description = '敏感人群症状易加剧，应避免高强度户外锻炼，外出时做好防护措施。儿童，老年人及心脏、呼吸系统疾病患者人群应减少长时间或高强度户外锻炼。';
             } else if (aqi > 150 & aqi < 200) {
                 kouzhao = '建议佩戴';
                 kaichuang = '不易过久';
-                jinghuaqi = '建议打开';
+                jinghuaqi = '不建议';
                 description = '应减少户外活动，外出时佩戴口罩，敏感人群应尽量避免外出。儿童，老年人及心脏、呼吸系统疾病患者人群应减少长时间或高强度户外锻炼。一般人群适量减少户外运动。';
             } else if (aqi >= 200 & aqi < 300) {
                 kouzhao = '必须佩戴';
                 kaichuang = '1小时/天';
-                jinghuaqi = '必须打开';
+                jinghuaqi = '避免外出';
                 description = '应减少户外活动，外出时佩戴口罩，敏感人群应留在室内。老年人及心脏、呼吸系统疾病患者人群应留在室内，停止户外运动，一般人群减少户外运动。';
             } else if (aqi >= 300) {
                 kouzhao = '必须佩戴';
                 kaichuang = '30分钟/天';
-                jinghuaqi = '高功率运行';
+                jinghuaqi = '有毒害';
                 description = '应避免外出，关好门窗，老年人病人应留在室内，停止体力消耗，一般人群避免户外活动。';
             }
 
