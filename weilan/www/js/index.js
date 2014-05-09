@@ -131,12 +131,16 @@ var getAverageChart = function () {
     var father = AV.Object.extend("averageChart");
     var son = new AV.Query(father);
     son.descending("createdAt");
-    son.limit(1);
+    son.limit(31);
     son.find({
         success: function(results) {
-            var obj = results[0];
 
-            pm25Array = obj.get('data');
+            var pm25Array = [];
+
+            for (var i = 0; i < results.length; i++) {
+                pm25Array.unshift(results[i].get('data'));
+            };
+            
             renderMonthChart(pm25Array);
         },
         error: function(error) {

@@ -130,6 +130,7 @@ var fuckCitys = function () {
     });
 };
 
+var writedAverage = false;
 var fuckY0 = function () {
     var array = [];
     var table = $('#alonso').contents().find('table');
@@ -160,38 +161,24 @@ var fuckY0 = function () {
         // crawl daily average number 
         var time = bArray[1].textContent;
         
-        if (time.match(/00:00/g)) {
+        if (time.match(/00:00/g) && !writedAverage) {
 
             var average = parseInt(bArray[4].textContent, 10);
 
             var father2 = AV.Object.extend('averageChart');
-            var son2 = new AV.Query(father2);
-
-            son2.descending("createdAt");
-            son2.limit(1);
-            son2.find({
-                success: function(results) {
-                    var obj = results[0];
-                    var array = obj.get('data');
-                    array.push(average);
-                    array.shift();
-                    average = array;
-
-                    var son3 = new father2();
-                    son3.set('data', average);
-                    son3.save(null, {
-                        success: function(data) {
-                            $('.car').append('<br>Average 爬取成功,并已经存入数据库.');
-                        },
-                        error: function(data, error) {
-                            $('.car').append('<br>Average 存入数据库失败.');
-                        }
-                    });
+            var son2 = new father2();
+            son2.set('data', average);
+            son2.save(null, {
+                success: function(data) {
+                    writedAverage = true;
+                    $('.car').append('<br>Average 爬取成功,并已经存入数据库.');
                 },
-                error: function(error) {
-                    $('.car').append('<br>Average 读取失败.');
+                error: function(data, error) {
+                    $('.car').append('<br>Average 存入数据库失败.');
                 }
             });
+        } else if (time.match(/01:00/g) && writedAverage) {
+            writedAverage = false;
         }
     }
 };
