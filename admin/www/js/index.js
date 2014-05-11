@@ -193,7 +193,7 @@ var crawl = function () {
     document.body.appendChild(iframe);
     iframe.setAttribute('id', 'alonso');
     // iframe.src = 'http://www.young-0.com/airquality/index.php';
-    iframe.src = 'http://www.young-0.com/airquality/index.php?action=2';
+    iframe.src = 'http://www.young-0.com/airquality/index.php?action=2&cn=1';
 
     iframe.onload = function(){
         fuckY0();
