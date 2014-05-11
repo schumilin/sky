@@ -308,7 +308,10 @@ var getPointsData = function () {
 
             var s3 = new iScroll('wrapper3', childConfig);
 
-            baiduMapInit(aqiArray);
+            $('#allmap').on('click', function () {
+                $(this).addClass('show');
+                baiduMapInit(aqiArray);
+            });
         },
         error: function(error) {
             // alert("avos error");
