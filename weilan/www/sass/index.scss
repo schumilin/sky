@@ -30,6 +30,14 @@ a {
 b {
     font-weight: bold;
 }
+.copyright {
+    font-size: 13px;
+    text-align: center;
+
+    &:last-child {
+        padding-bottom: 40px;
+    }
+}
 
 // iscroll
 .page {
