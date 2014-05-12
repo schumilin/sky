@@ -498,6 +498,105 @@ b {
     height: 250px;
 }
 
+// ios 
+.ios {
+    padding: 10px 0 0;
+}
+
+// media query
+@media only screen and (min-width: 1000px) {
+    // for ipad Landscape
+    .guess, .guess p {
+        margin: 20px 0;
+    }
+    #aqiChart {
+        height: 380px;
+    }
+    .detail .detail-dashboard .section {
+        padding: 10px 0 20px;
+
+        .drei {
+            margin: 10px 0 0;
+        }
+        .intro-intro {
+            padding: 20px 0 0;
+        }
+    }
+    #monthChart {
+        height: 330px;
+    }
+    #columnChart {
+        height: 350px;
+    }
+    #allmap.show {
+        height: 250px;
+    }
+    .points .point-suggest {
+        padding: 20px;
+        margin: 20px 0;
+    }
+    #pointsChart {
+        height: 450px;
+    }
+    #citysChart {
+        height: 620px;
+    }
+}
+@media only screen and (min-width: 700px) and (max-width: 1000px) {
+    // for ipad Portrait
+    .dashboard .big-bang .aqi-number {
+        font-size: 130px;
+        line-height: 1.2;
+    }
+    .guess, .guess p {
+        margin: 20px 0;
+    }
+    #aqiChart {
+        height: 480px;
+    }
+    .guess, .weather-info {
+        font-size: 16px;
+    }
+    .detail .detail-dashboard .section {
+        padding: 10px 0 20px;
+        font-size: 16px;
+
+        .eins .number {
+            font-size: 100px;
+            line-height: 1;
+        }
+        .eins .zwei {
+            padding-top: 35px;
+        }
+        .drei {
+            margin: 10px 0 0;
+        }
+        .intro-intro {
+            padding: 20px 0 0;
+            font-size: 16px;
+        }
+    }
+    #monthChart {
+        height: 450px;
+    }
+    #columnChart {
+        height: 500px;
+    }
+    #allmap.show {
+        height: 350px;
+    }
+    .points .point-suggest {
+        padding: 20px;
+        margin: 20px 0;
+    }
+    #pointsChart {
+        height: 650px;
+    }
+    #citysChart {
+        height: 820px;
+    }
+}
+
 @include keyframes(bounceIn) {
     0% {
         opacity: 0;

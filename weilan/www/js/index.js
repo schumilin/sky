@@ -47,7 +47,7 @@ changeBg();
 
 // hack for ios status bar
 if (navigator.userAgent.match(/(iPad|iPhone|iPod)/g)) {
-    $('body').css('padding', '10px 0 0');
+    $('body').addClass('ios');
 }
 
 // iscroll init
@@ -60,7 +60,7 @@ var iscrollInit = function () {
 
     var wrapperWidth = 0;
     var pageNumber = 5;
-    var startPage = 4;
+    var startPage = 2;
     
     var parentConfig = {
         snap: true,
@@ -158,7 +158,6 @@ var getColumnChart = function () {
             var obj = results[0];
 
             pm25Array = obj.get('data');
-            console.log(pm25Array)
             renderColumnChart(pm25Array);
         },
         error: function(error) {
@@ -715,9 +714,6 @@ var renderColumnChart = function (pm25Array) {
             enabled: false
         },
         xAxis: {
-            labels: {
-                align: 'right'
-            },
             type: 'datetime',
             lineColor: grey5,
             tickColor: grey5,
