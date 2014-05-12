@@ -1577,7 +1577,8 @@ defaultOptions = {
 			hour: '%A, %b %e, %H:%M',
 			day: '%A, %b %e, %Y',
 			week: 'Week from %A, %b %e, %Y',
-			month: '%B %Y',
+			// month: '%B %Y',
+			month: '%B',
 			year: '%Y'
 		},
 		//formatter: defaultFormatter,
@@ -6300,7 +6301,8 @@ Axis.prototype = {
 			// day: '%b%e日',
 			day: '24:00',
 			week: '%b%e日',
-			month: '%y \'%b',
+			// month: '%y \'%b',
+			month: '%b',
 			year: '%Y'
 		},
 		endOnTick: false,

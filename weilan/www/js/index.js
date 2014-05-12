@@ -137,9 +137,29 @@ var getAverageChart = function () {
 
             for (var i = 0; i < results.length; i++) {
                 pm25Array.unshift(results[i].get('data'));
-            };
+            }
 
             renderMonthChart(pm25Array);
+        },
+        error: function(error) {
+            // alert("avos error");
+        }
+    });
+};
+
+var getColumnChart = function () {
+    var father = AV.Object.extend("columnChart");
+    var son = new AV.Query(father);
+    son.descending("createdAt");
+    son.limit(1);
+    son.find({
+        success: function(results) {
+
+            var obj = results[0];
+
+            pm25Array = obj.get('data');
+            console.log(pm25Array)
+            renderColumnChart(pm25Array);
         },
         error: function(error) {
             // alert("avos error");
@@ -157,6 +177,7 @@ var getGuessData = function () {
             var obj = results[0];
             $('.main-guess').html(obj.get('first'));
             $('.sub-guess').html(obj.get('second'));
+            $('.point-suggest').find('p').html(obj.get('pointsSuggest'));
         },
         error: function(error) {
             // alert("avos error");
@@ -664,7 +685,13 @@ var renderVerticalChart = function (container, positionArray, aqiArray) {
     });
 };
 
-var renderColumnChart = function () {
+var renderColumnChart = function (pm25Array) {
+    // now time cut 180 days
+    var newdate = new Date(calendar.getTime() - (180 * 1000 * 3600 * 24));
+    var year = newdate.getYear();
+    var month = newdate.getMonth();
+    var date = newdate.getDate();
+
     $('#columnChart').highcharts({
         chart: {
             type: 'column',
@@ -688,13 +715,19 @@ var renderColumnChart = function () {
             enabled: false
         },
         xAxis: {
-            categories: ['十一月', '十二月', '一月', '二月', '三月', '四月'],
+            labels: {
+                align: 'right'
+            },
+            type: 'datetime',
             lineColor: grey5,
             tickColor: grey5,
+            tickInterval: 3600 * 1000 * 24 * 30,
             labels: {
                 style: {
                     color: grey2
-                }
+                },
+                align: 'left',
+                x: 10
             }
         },
         yAxis: {
@@ -726,6 +759,10 @@ var renderColumnChart = function () {
                 animation: false,
                 borderWidth: 0,
                 stacking: 'percent'
+            },
+            series: {
+                pointStart: Date.UTC(year, month, date),
+                pointInterval: 3600 * 1000 * 24 * 30
             }
         },
         legend: {
@@ -736,24 +773,12 @@ var renderColumnChart = function () {
             itemStyle: {
                 color: grey2,
                 fontWeight: 'normal'
+            },
+            itemHoverStyle: {
+                color: '#fff'
             }
         },
-        series: [{
-            name: '优',
-            data: [2, 0, 1, 1, 1, 0]
-        }, {
-            name: '良',
-            data: [6, 7, 5, 4, 7, 3]
-        }, {
-            name: '不健康',
-            data: [16, 17, 13, 13, 12, 24]
-        }, {
-            name: '非常不健康',
-            data: [5, 5, 10, 1, 9, 3]
-        }, {
-            name: '有毒害',
-            data: [1, 2, 2, 9, 2, 0]
-        }]
+        series: pm25Array
     });
 };
 
@@ -894,4 +919,4 @@ getWeatherData();
 getPointsData();
 getCitysData();
 getAverageChart();
-renderColumnChart();
+getColumnChart();
