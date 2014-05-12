@@ -51,26 +51,30 @@ if (navigator.userAgent.match(/(iPad|iPhone|iPod)/g)) {
 }
 
 // iscroll init
+$(window).resize(function () {
+    iscrollInit();
+});
 var childConfig = {
     hScrollbar: false,
     vScrollbar: false,
     lockDirection: true
 };
-var iscrollInit = function () {
-
-    var wrapperWidth = 0;
-    var pageNumber = 5;
-    var startPage = 2;
-    
-    var parentConfig = {
+var wrapperWidth = 0;
+var myScroll = new iScroll('pageWrapper', {
         snap: true,
         momentum: false,
         hScrollbar: false,
         vScrollbar: false,
         lockDirection: true
-    };
+    });
+var iscrollInit = function () {
 
-    var myScroll = new iScroll('pageWrapper', parentConfig);
+    var pageNumber = 5;
+    var startPage = 2;
+
+    if (wrapperWidth > 0) {
+        startPage = - Math.ceil( $('#pageScroller').position().left / wrapperWidth);
+    }
 
     wrapperWidth = $('#pageWrapper').width();
 
@@ -79,8 +83,6 @@ var iscrollInit = function () {
 
     myScroll.refresh();
     myScroll.scrollToPage(startPage, 0, 0);
-
-    var s1 = new iScroll('wrapper1', childConfig);
 };
 
 iscrollInit();
@@ -97,6 +99,7 @@ var getAqiChart = function () {
 
             pm25Array = obj.get('data');
             renderDayChart(pm25Array);
+            var s1 = new iScroll('wrapper1', childConfig);
 
             var concentration = obj.get('concentration');
             $('.us-pm25-detail').text(concentration);
