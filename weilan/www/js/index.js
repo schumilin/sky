@@ -648,6 +648,7 @@ var renderVerticalChart = function (container, positionArray, aqiArray) {
             }
         },
         tooltip: {
+            enabled: false,
             backgroundColor: 'rgba(0,0,0,0.2)',
             borderColor: 'rgba(0,0,0,0.2)',
             shadow: false,
