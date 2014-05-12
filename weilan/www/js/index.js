@@ -311,6 +311,7 @@ var getPointsData = function () {
             $('#allmap').on('click', function () {
                 $(this).addClass('show');
                 baiduMapInit(aqiArray);
+                var s5 = new iScroll('wrapper5', childConfig);
             });
         },
         error: function(error) {
@@ -355,7 +356,7 @@ var getCitysData = function () {
                     $('.mycity-rank').find('b').html(j + 1);
                     $('.mycity-aqi').find('b').html(aqiObj[j].aqi);
                 }
-            };
+            }
         },
         error: function(error) {
             // alert("avos error");
@@ -663,12 +664,105 @@ var renderVerticalChart = function (container, positionArray, aqiArray) {
     });
 };
 
+var renderColumnChart = function () {
+    $('#columnChart').highcharts({
+        chart: {
+            type: 'column',
+            backgroundColor: 'transparent'
+        },
+        title: {
+            text: '北京过去六个月空气质量比例分布图',
+            style: {
+                    color: grey3,
+                    fontSize: '13px'
+                }
+        },
+        colors: [
+           // '#36d900','#ffc200','#fb7e00','#940000','#400058'
+           'rgba(255,255,255,0.2)','rgba(255,255,255,0.4)','rgba(255,255,255,0.6)','rgba(255,255,255,0.8)','rgba(255,255,255,1)'
+        ],
+        credits: {
+            enabled: false
+        },
+        exporting: {
+            enabled: false
+        },
+        xAxis: {
+            categories: ['十一月', '十二月', '一月', '二月', '三月', '四月'],
+            lineColor: grey5,
+            tickColor: grey5,
+            labels: {
+                style: {
+                    color: grey2
+                }
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: null
+            },
+            labels: {
+                enabled: false
+            },
+            gridLineColor: grey1,
+            reversed: true
+        },
+        tooltip: {
+            // positioner: function () {
+            //     return { y: 50 };
+            // },
+            pointFormat: '<span>{series.name}</span>: <b>{point.y}天</b> ({point.percentage:.0f}%)<br/>',
+            shared: true,
+            shadow: false,
+            borderColor: 'rgba(0,0,0,0.2)',
+            backgroundColor: 'rgba(0,0,0,0.55)',
+            style: {
+                color: grey3
+            }
+        },
+        plotOptions: {
+            column: {
+                animation: false,
+                borderWidth: 0,
+                stacking: 'percent'
+            }
+        },
+        legend: {
+            padding: 0,
+            itemDistance: 5,
+            symbolWidth: 12,
+            borderWidth: 0,
+            itemStyle: {
+                color: grey2,
+                fontWeight: 'normal'
+            }
+        },
+        series: [{
+            name: '优',
+            data: [2, 0, 1, 1, 1, 0]
+        }, {
+            name: '良',
+            data: [6, 7, 5, 4, 7, 3]
+        }, {
+            name: '不健康',
+            data: [16, 17, 13, 13, 12, 24]
+        }, {
+            name: '非常不健康',
+            data: [5, 5, 10, 1, 9, 3]
+        }, {
+            name: '有毒害',
+            data: [1, 2, 2, 9, 2, 0]
+        }]
+    });
+};
+
 // baidu map
 var baiduMapInit = function (aqiArray) {
 
     var mp = new BMap.Map("allmap");
 
-    mp.centerAndZoom(new BMap.Point(116.3964,40.0751), 10);
+    mp.centerAndZoom(new BMap.Point(116.3664,39.9200), 11);
     mp.enableScrollWheelZoom();
 
     function ComplexCustomOverlay(point, text, color, borderColor){
@@ -800,3 +894,4 @@ getWeatherData();
 getPointsData();
 getCitysData();
 getAverageChart();
+renderColumnChart();
