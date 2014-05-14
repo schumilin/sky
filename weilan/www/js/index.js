@@ -104,7 +104,7 @@ var getAqiChart = function () {
             var concentration = obj.get('concentration');
             $('.us-pm25-detail').text(concentration);
 
-            var usNumber = obj.get('data').pop();
+            var usNumber = parseInt(calculateUsAqi(concentration), 10);
             var usQuality = '良好';
 
             if (usNumber >= 50 & usNumber < 100) {
@@ -906,6 +906,54 @@ var baiduMapInit = function (aqiArray) {
             mp.addOverlay(point);
         }
     }
+};
+
+// calculate us aqi
+var calculateUsAqi = function (c) {
+
+    var cLow = 0;
+    var cHigh = 0;
+    var iLow = 0;
+    var iHigh = 0;
+
+    if (c >= 0 && c <= 12) {
+        cLow = 0;
+        cHigh = 12;
+        iLow = 0;
+        iHigh = 50;
+    } else if (c > 12 && c < 35.5) {
+        cLow = 12.1;
+        cHigh = 35.4;
+        iLow = 51;
+        iHigh = 100;
+    } else if (c >= 35.5 && c < 55.5) {
+        cLow = 35.5;
+        cHigh = 55.4;
+        iLow = 101;
+        iHigh = 150;
+    } else if (c >= 55.5 && c < 150.5) {
+        cLow = 55.5;
+        cHigh = 150.4;
+        iLow = 151;
+        iHigh = 200;
+    } else if (c >= 150.5 && c < 250.5) {
+        cLow = 150.5;
+        cHigh = 250.4;
+        iLow = 201;
+        iHigh = 300;
+    } else if (c >= 250.5 && c < 350.5) {
+        cLow = 250.5;
+        cHigh = 350.4;
+        iLow = 301;
+        iHigh = 400;
+    } else if (c >= 350.5) {
+        cLow = 350.5;
+        cHigh = 500.4;
+        iLow = 401;
+        iHigh = 500;
+    }
+
+    return (iHigh - iLow) / (cHigh - cLow) * (c - cLow) + iLow;
 };
 
 // AVOS init
