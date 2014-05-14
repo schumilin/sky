@@ -217,9 +217,6 @@ var getAirData = function () {
 
             // 入场动画
             $('.loading-wrap').addClass('complete');
-            setTimeout(function () {
-                $('.loading-wrap').remove();
-            },500);
 
             var obj = results[0];
             var aqiObj = obj.get('dataObj');
@@ -292,6 +289,9 @@ var getAirData = function () {
             setTimeout(function () {
                 $('.aqi-number').addClass('complete').css('opacity','1');
             },500);
+            setTimeout(function () {
+                $('.loading-wrap').remove();
+            },1000);
             setTimeout(function () {
                 $('.threesome').addClass('complete');
             },1200);
