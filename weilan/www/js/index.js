@@ -724,9 +724,7 @@ var renderColumnChart = function (pm25Array) {
             labels: {
                 style: {
                     color: grey2
-                },
-                align: 'left',
-                x: 10
+                }
             }
         },
         yAxis: {
