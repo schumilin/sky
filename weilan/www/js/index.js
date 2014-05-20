@@ -69,8 +69,8 @@ var myScroll = new iScroll('pageWrapper', {
     });
 var iscrollInit = function () {
 
-    var pageNumber = 5;
-    var startPage = 2;
+    var pageNumber = 4;
+    var startPage = 1;
 
     if (wrapperWidth > 0) {
         startPage = - Math.ceil( $('#pageScroller').position().left / wrapperWidth);
@@ -330,12 +330,6 @@ var getPointsData = function () {
             renderVerticalChart('#pointsChart', positionArray, aqiArray);
 
             var s3 = new iScroll('wrapper3', childConfig);
-
-            $('#allmap').on('click', function () {
-                $(this).addClass('show');
-                baiduMapInit(aqiArray);
-                var s5 = new iScroll('wrapper5', childConfig);
-            });
         },
         error: function(error) {
             // alert("avos error");
@@ -687,225 +681,6 @@ var renderVerticalChart = function (container, positionArray, aqiArray) {
     });
 };
 
-var renderColumnChart = function (pm25Array) {
-    // now time cut 180 days
-    var newdate = new Date(calendar.getTime() - (180 * 1000 * 3600 * 24));
-    var year = newdate.getYear();
-    var month = newdate.getMonth();
-    var date = newdate.getDate();
-
-    $('#columnChart').highcharts({
-        chart: {
-            type: 'column',
-            backgroundColor: 'transparent'
-        },
-        title: {
-            text: '北京过去六个月空气质量比例分布图',
-            style: {
-                    color: grey3,
-                    fontSize: '13px'
-                }
-        },
-        colors: [
-           // '#36d900','#ffc200','#fb7e00','#940000','#400058'
-           'rgba(255,255,255,0.2)','rgba(255,255,255,0.4)','rgba(255,255,255,0.6)','rgba(255,255,255,0.8)','rgba(255,255,255,1)'
-        ],
-        credits: {
-            enabled: false
-        },
-        exporting: {
-            enabled: false
-        },
-        xAxis: {
-            type: 'datetime',
-            lineColor: grey5,
-            tickColor: grey5,
-            tickInterval: 3600 * 1000 * 24 * 30,
-            labels: {
-                style: {
-                    color: grey2
-                }
-            }
-        },
-        yAxis: {
-            min: 0,
-            title: {
-                text: null
-            },
-            labels: {
-                enabled: false
-            },
-            gridLineColor: grey1,
-            reversed: true
-        },
-        tooltip: {
-            // positioner: function () {
-            //     return { y: 50 };
-            // },
-            pointFormat: '<span>{series.name}</span>: <b>{point.y}天</b> ({point.percentage:.0f}%)<br/>',
-            shared: true,
-            shadow: false,
-            borderColor: 'rgba(0,0,0,0.2)',
-            backgroundColor: 'rgba(0,0,0,0.55)',
-            style: {
-                color: grey3
-            }
-        },
-        plotOptions: {
-            column: {
-                animation: false,
-                borderWidth: 0,
-                stacking: 'percent'
-            },
-            series: {
-                pointStart: Date.UTC(year, month, date),
-                pointInterval: 3600 * 1000 * 24 * 30
-            }
-        },
-        legend: {
-            padding: 0,
-            itemDistance: 5,
-            symbolWidth: 12,
-            borderWidth: 0,
-            itemStyle: {
-                color: grey2,
-                fontWeight: 'normal'
-            },
-            itemHoverStyle: {
-                color: '#fff'
-            }
-        },
-        series: pm25Array
-    });
-};
-
-// baidu map
-var baiduMapInit = function (aqiArray) {
-
-    var mp = new BMap.Map("allmap");
-
-    mp.centerAndZoom(new BMap.Point(116.3664,39.9200), 11);
-    mp.enableScrollWheelZoom();
-
-    function ComplexCustomOverlay(point, text, color, borderColor){
-      this._point = point;
-      this._text = text;
-      this._color = color;
-      this._borderColor = borderColor;
-    }
-
-    ComplexCustomOverlay.prototype = new BMap.Overlay();
-    ComplexCustomOverlay.prototype.initialize = function(map){
-
-        this._map = map;
-
-        var div = this._div = document.createElement("div");
-        div.style.position = "absolute";
-        div.style.zIndex = BMap.Overlay.getZIndex(this._point.lat);
-        div.style.backgroundColor = this._color;
-        div.style.border = "1px solid " + this._borderColor;
-        div.style.color = "white";
-        div.style.padding = "0 5px";
-        div.style.MozUserSelect = "none";
-        div.style.fontWeight = "bold";
-        div.style.borderRadius = "3px";
-
-        var span = this._span = document.createElement("span");
-        div.appendChild(span);
-        span.appendChild(document.createTextNode(this._text));
-
-        mp.getPanes().labelPane.appendChild(div);
-
-        return div;
-    };
-    ComplexCustomOverlay.prototype.draw = function(){
-        var map = this._map;
-        var pixel = map.pointToOverlayPixel(this._point);
-        this._div.style.left = pixel.x + "px";
-        this._div.style.top  = pixel.y + "px";
-    };
-
-    var location = [
-        {
-            x: 116.374643,
-            y: 39.885663,
-            name: '万寿西宫'
-        }, {
-            x: 116.232172,
-            y: 40.301116,
-            name: '定陵'
-        }, {
-            x: 116.423906,
-            y: 39.930715,
-            name: '东四'
-        }, {
-            x: 116.419343,
-            y: 39.889926,
-            name: '天坛'
-        }, {
-            x: 116.468786,
-            y: 39.947063,
-            name: '农展馆'
-        }, {
-            x: 116.36796,
-            y: 39.940176,
-            name: '官园'
-        }, {
-            x: 116.303516,
-            y: 39.974396,
-            name: '海淀区万柳'
-        }, {
-            x: 116.658957,
-            y: 40.182363,
-            name: '顺义新城'
-        }, {
-            x: 116.638116,
-            y: 40.322393,
-            name: '怀柔镇'
-        }, {
-            x: 116.238047,
-            y: 40.226226,
-            name: '昌平镇'
-        }, {
-            x: 116.407791,
-            y: 39.991258,
-            name: '奥体中心'
-        }, {
-            x: 116.197084,
-            y: 39.913437,
-            name: '古城'
-        }
-    ];
-    var point;
-    var aqi = 0;
-    var color = '#36d900';
-    var borderColor = '#009b00';
-
-    for (var i = 0; i < aqiArray.length; i++) {
-        aqi = aqiArray[i];
-        if (aqi !== 0) {
-            if (aqi >= 50 & aqi < 100) {
-                color = '#f7c800';
-                borderColor = '#be8f00';
-            } else if (aqi >= 100 & aqi < 150) {
-                color = '#fb7e00';
-                borderColor = '#b96000';
-            } else if (aqi >= 150 & aqi < 200) {
-                color = '#dc0000';
-                borderColor = '#940000';
-            } else if (aqi >= 200 & aqi < 300) {
-                color = '#8e0000';
-                borderColor = '#6b0000';
-            } else if (aqi >= 300) {
-                color = '#6a008e';
-                borderColor = '#400058';
-            }
-            point = new ComplexCustomOverlay(new BMap.Point(location[i].x, location[i].y), aqi, color, borderColor);
-            mp.addOverlay(point);
-        }
-    }
-};
-
 // calculate us aqi
 var calculateUsAqi = function (c) {
 
@@ -964,4 +739,3 @@ getWeatherData();
 getPointsData();
 getCitysData();
 getAverageChart();
-getColumnChart();

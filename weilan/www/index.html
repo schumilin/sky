@@ -2,8 +2,6 @@
     <head>
         <meta charset="utf-8" />
         <meta name="format-detection" content="telephone=no" />
-        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-        <!-- <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" /> -->
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
         <link rel="stylesheet" type="text/css" href="css/index.css" />
         <title>蔚蓝</title>
@@ -23,21 +21,6 @@
                                 <span class="mycity-aqi">污染指数：<b>--</b></span>
                             </div>
                             <div id="citysChart"></div>
-                            <p class="footer-time">数据更新时间：</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="page">
-                    <div id="wrapper3" class="child-wrapper points">
-                        <div class="scroller">
-                            <div class="points-header">
-                                <span class="title">北京各个监测点数值</span>
-                            </div>
-                            <div class="point-suggest">
-                                <span>状况分析：</span>
-                                <p></p>
-                            </div>
-                            <div id="pointsChart"></div>
                             <p class="footer-time">数据更新时间：</p>
                         </div>
                     </div>
@@ -101,7 +84,6 @@
                         <div class="scroller">
                             <div class="detail-header">
                                 <span class="title">空气污染指数详情</span>
-                                <!-- <span class="update-time">数据更新时间：04-02 16:00</span> -->
                             </div>
                             <div class="detail-dashboard">
                                 <div class="section china">
@@ -137,14 +119,6 @@
                                     </div>
                                     <div class="detail-intro">
                                         <div class="intro-intro">重度污染：应减少户外活动，外出时佩戴口罩，敏感人群应留在室内。老年人及心脏、呼吸系统疾病患者人群应留在室内，停止户外运动，一般人群减少户外运动。 </div>
-                                        
-                                        <!-- <div class="pm25-intro intro-intro">PM2.5 是直径小于等于 2.5 微米的可吸入颗粒物，不易被阻挡，被吸入人体后会直接进入支气管，干扰肺部的气体交换，引发包括哮喘、支气管炎和心血管病等方面的疾病。这些颗粒还可以通过支气管和肺泡进入血液，其中的有害气体、重金属等溶解在血液中，对人体健康的伤害巨大。</div> -->
-                                        
-                                        <!-- <div class="pm10-intro intro-intro">PM10 是直径小于等于 10 微米的可吸入颗粒物，能够进入上呼吸道，但部分可通过痰液等排出体外，另外也会被鼻腔内部的绒毛阻挡。</div> -->
-                                        
-                                        <!-- <div class="no2-intro intro-intro">氮氧化物主要损害呼吸道。吸入气体初期仅有轻微的眼及上呼吸道刺激症状，如咽部不适、干咳等。</div> -->
-
-                                        <!-- <div class="so2-intro intro-intro">高浓度的二氧化硫被人体吸入呼吸道后，因易溶于水，故大部分被阻滞在上呼吸道。在湿润的粘膜上生成具有腐蚀性的亚硫酸，一部分进而氧化为硫酸，使刺激作用增强。</div> -->
                                     </div>
                                 </div>
                                 <div class="section us">
@@ -174,13 +148,16 @@
                     </div>
                 </div>
                 <div class="page">
-                    <div id="wrapper5" class="child-wrapper fantastic">
+                    <div id="wrapper3" class="child-wrapper points">
                         <div class="scroller">
-                            <div class="fantastic-header">
-                                <span class="title">其他数据</span>
+                            <div class="points-header">
+                                <span class="title">北京各个监测点数值</span>
                             </div>
-                            <div id="columnChart"></div>
-                            <div id="allmap">查看北京市内空气质量地图</div>
+                            <div class="point-suggest">
+                                <span>状况分析：</span>
+                                <p></p>
+                            </div>
+                            <div id="pointsChart"></div>
                             <p class="copyright">Copyright © 2013 - 2014 Shinlol Team.</p>
                             <p class="copyright">Special Thanks: BestApp Studio.</p>
                         </div>
@@ -189,8 +166,6 @@
             </div>
         </div>
         <div class="loading-wrap">
-            <!-- <div class="loader"></div>
-            <div class="loader2"></div> -->
             <img src="img/loading.png" alt="加载中">
             <p>
                 Copyright © 2013 - 2014 Shinlol Team.
@@ -198,25 +173,6 @@
                 Special Thanks: BestApp Studio.
             </p>
         </div>
-
-
-        <!-- <div class="footer">
-            <ul>
-                <li>
-                    <img src="img/set-icon.png" alt="">
-                    <span>设置</span>
-                </li>
-                <li>
-                    <img src="img/refresh-icon.png" alt="">
-                    <span>刷新</span>
-                </li>
-                <li>
-                    <img src="img/share-icon.png" alt="">
-                    <a href="###" class="share-btn">分享</a>
-                </li>
-            </ul>
-        </div> -->
-
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/jquery.min.js"></script>
         <script type="text/javascript" src="js/iscroll.js"></script>
