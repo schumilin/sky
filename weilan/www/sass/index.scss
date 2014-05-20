@@ -58,34 +58,45 @@ b {
     top: 0;
     left: 0;
     z-index: 9999;
-    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, from(#33E4FF), to(#3E9AFF));
+    background-color: #e6f0f5;
     @include transition(opacity 0.5s);
 
     &.complete {
         opacity: 0;
     }
-    .loader, .loader2 {
+    // .loader, .loader2 {
+    //     position: absolute;
+    //     top: 50%;
+    //     left: 50%;
+    //     width: 40px;
+    //     height: 40px;
+    //     margin: -40px 0 0 -20px;
+    //     border: 2px solid transparent;
+    //     border-top-color: #53c7e7;
+    //     border-radius: 50%;
+    //     -webkit-animation: spin 1s infinite;
+    // }
+    // .loader2 {
+    //     -webkit-animation: spin 2s infinite ease;
+    // }
+    img {
+        width: 100%;
+        min-width: 320px;
+        max-width: 640px;
         position: absolute;
-        top: 50%;
         left: 50%;
-        width: 40px;
-        height: 40px;
-        margin: -40px 0 0 -20px;
-        border: 2px solid transparent;
-        border-top-color: #fff;
-        border-radius: 50%;
-        -webkit-animation: spin 1s infinite;
+        top: 40%;
+        @include transform(translate(-50%,-50%));
     }
-    .loader2 {
-        -webkit-animation: spin 2s infinite ease;
-    }
-    span {
+    p {
         position: absolute;
-        top: 50%;
+        bottom: 30px;
         left: 50%;
-        width: 120px;
+        width: 300px;
         text-align: center;
-        margin: 20px 0 0 -60px;
+        margin: 0 0 0 -150px;
+        color: #003A4E;
+        font-size: 12px;
     }
 }
 .footer-time {
